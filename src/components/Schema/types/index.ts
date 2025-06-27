@@ -78,7 +78,7 @@ export interface FormItemProps extends FormItemConfig {
 
 export interface FormConfig {
   trigger?: 'blur' | 'change';
-  rules?: any[]; // 表单校验规则（优先级小于字段属性定义）
+  rules?: Record<string, any>; // 表单校验规则（优先级小于字段属性定义）
   layout?: Record<string, any>; // 表单布局配置（基于 ElRow & ElCol 组件实现）
   props?: Record<string, any>; // 表单属性用于 ElForm 组件
   emptyText?: string; // VIEW 模式下空值展示的文本（优先级小于字段属性定义）

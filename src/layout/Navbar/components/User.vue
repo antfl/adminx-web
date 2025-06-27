@@ -11,7 +11,7 @@ const auth = useAuth();
 const avatar = computed(() => userStore.user?.avatar);
 const username = computed(() => userStore.user?.username);
 
-const handleClick = ({ key }: { key: 'Profile' | 'signOut' }) => {
+const handleClick = ({ key }: { key: string | number }) => {
   if (key === 'signOut') {
     auth.signOut();
   }

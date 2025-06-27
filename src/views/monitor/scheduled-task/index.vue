@@ -1,7 +1,16 @@
 <script setup lang="ts">
 import { PlayCircleOutlined, LoadingOutlined, DoubleRightOutlined } from '@ant-design/icons-vue';
 
-const taskList = ref([
+interface Task {
+  name: string;
+  status: 'normal' | 'active' | 'success' | 'exception';
+  color: string;
+  duration: string;
+  percent: number;
+  component: any;
+}
+
+const taskList = ref<Task[]>([
   {
     name: '同步系统用户',
     status: 'success',

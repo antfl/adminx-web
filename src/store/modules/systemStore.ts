@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 export type themeType = 'light' | 'dark';
 
 export type layoutType = 'classic' | 'unbounded';
+type MenuMode = 'vertical' | 'horizontal' | 'inline';
 
 export const useSystemStore = defineStore('system', () => {
   const themeStr: themeType | null = localStorage.getItem('theme') as themeType;
@@ -20,7 +21,7 @@ export const useSystemStore = defineStore('system', () => {
         collapsed: true,
         menu: {
           style: 'overflow-y-auto h-[calc(100vh-64px)]',
-          mode: 'inline',
+          mode: 'inline' as MenuMode,
         },
       },
       // 无界
@@ -31,7 +32,7 @@ export const useSystemStore = defineStore('system', () => {
         collapsed: false,
         menu: {
           style: '',
-          mode: 'horizontal',
+          mode: 'horizontal' as MenuMode,
         },
       },
     };

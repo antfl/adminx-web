@@ -7,7 +7,7 @@ import { t } from '@/i18n';
 
 const props = withDefaults(
   defineProps<{
-    isChild: boolean;
+    isChild?: boolean;
     comment: Comment;
   }>(),
   {

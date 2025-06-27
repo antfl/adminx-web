@@ -14,9 +14,9 @@ const router = useRouter();
 const menuRoutes = computed(() => {
   return router.options.routes;
 });
-const handleMenuClick = ({ key }: { key: string }) => {
-  tabsStore.setActiveTab(key);
-  router.push(key);
+const handleMenuClick = ({ key }: { key: string | number }) => {
+  tabsStore.setActiveTab(key as string);
+  router.push(key as string);
 };
 </script>
 

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { TranslationOutlined } from '@ant-design/icons-vue';
-
 import { setLocale, currentLanguage } from '@/i18n';
-const changeLang = (e: { key: string }) => {
+const changeLang = (e: { key: string | number }) => {
   setLocale(e.key as 'zh-CN' | 'en-US');
 };
 </script>

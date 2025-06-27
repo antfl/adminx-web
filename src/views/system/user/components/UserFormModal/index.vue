@@ -6,10 +6,10 @@ const formData = reactive({
   nickname: '',
 });
 
-let callback: (data: T) => void;
+let callback: (data: any) => void;
 const visible = ref(false);
 const modalTile = ref('');
-const showModal = ({ title, onSuccess }: { title: string; onSuccess: () => void }) => {
+const showModal = ({ title, onSuccess }: { title: string; onSuccess: (data: any) => void }) => {
   callback = onSuccess;
   modalTile.value = title;
   visible.value = true;
