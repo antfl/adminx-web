@@ -9,10 +9,13 @@ interface Props extends FormItemProps {
 }
 
 const props = withDefaults(defineProps<Props>(), {});
-const { isView, viewSlot, viewValue } = useFormOptions(props, computed(() => props.value));
+const { isView, viewSlot, viewValue } = useFormOptions(
+  props,
+  computed(() => props.value),
+);
 
 const emit = defineEmits<{
-  (e: 'field-change', payload: { name: string; value: any }): void
+  (e: 'field-change', payload: { name: string; value: any }): void;
 }>();
 
 const handleChange = (value: any) => {
@@ -26,11 +29,6 @@ const handleChange = (value: any) => {
       <slot v-if="viewSlot" :name="viewSlot" :value="value"></slot>
       <template v-else>{{ viewValue }}</template>
     </template>
-    <a-input
-      v-else
-      v-bind="attrs"
-      @change="handleChange"
-    >
-    </a-input>
+    <a-input v-else v-bind="attrs" @change="handleChange"> </a-input>
   </div>
 </template>

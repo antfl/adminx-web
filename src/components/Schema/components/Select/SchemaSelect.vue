@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import {
-  OPTION_LABEL_KEY,
-  OPTION_VALUE_KEY,
-} from '@/components/Schema/constants';
+import { OPTION_LABEL_KEY, OPTION_VALUE_KEY } from '@/components/Schema/constants';
 import { useFormOptions } from '@/components/Schema/hooks/useFormOptions';
 import type { FormItemProps } from '@/components/Schema/types';
 
@@ -25,7 +22,7 @@ const { isView, viewSlot, viewValue, options, isLoading, loadOptions } = useForm
 );
 
 const emit = defineEmits<{
-  (e: 'field-change', payload: { name: string; value: any }): void
+  (e: 'field-change', payload: { name: string; value: any }): void;
 }>();
 
 const handleChange = (value: any) => {
@@ -50,13 +47,7 @@ defineExpose({
     <slot v-if="viewSlot" :name="viewSlot"></slot>
     <template v-else>{{ viewValue }}</template>
   </template>
-  <a-select
-    v-bind="attrs"
-    v-else
-    :loading="isLoading"
-    @change="handleChange"
-    :value="value"
-  >
+  <a-select v-bind="attrs" v-else :loading="isLoading" @change="handleChange" :value="value">
     <template #header v-if="props?.itemProps?.headerSlot">
       <slot :name="props.itemProps.headerSlot"></slot>
     </template>

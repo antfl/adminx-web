@@ -11,10 +11,13 @@ interface Props extends FormItemProps {
 const props = withDefaults(defineProps<Props>(), {});
 
 const emit = defineEmits<{
-  (e: 'field-change', payload: { name: string; value: any }): void
+  (e: 'field-change', payload: { name: string; value: any }): void;
 }>();
 
-const { isView, viewSlot, viewValue } = useFormOptions(props, computed(() => props.value));
+const { isView, viewSlot, viewValue } = useFormOptions(
+  props,
+  computed(() => props.value),
+);
 
 const handleChange = (value: boolean) => {
   emit('field-change', { name: props.name, value });
@@ -31,6 +34,5 @@ defineExpose({
     <slot v-if="viewSlot" :name="viewSlot"></slot>
     <template v-else>{{ viewValue }}</template>
   </template>
-  <a-switch v-else @change="handleChange" :checked="value" v-bind="attrs">
-  </a-switch>
+  <a-switch v-else @change="handleChange" :checked="value" v-bind="attrs"> </a-switch>
 </template>

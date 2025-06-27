@@ -12,10 +12,13 @@ const props = withDefaults(defineProps<Props>(), {
   value: () => '',
 });
 
-const { isView, viewSlot, viewValue, options, loadOptions } = useFormOptions(props, computed(() => props.value));
+const { isView, viewSlot, viewValue, options, loadOptions } = useFormOptions(
+  props,
+  computed(() => props.value),
+);
 
 const emit = defineEmits<{
-  (e: 'field-change', payload: { name: string; value: any }): void
+  (e: 'field-change', payload: { name: string; value: any }): void;
 }>();
 
 const handleChange = (e: any) => {
