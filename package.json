@@ -40,6 +40,7 @@
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
+    "@eslint/js": "^9.30.0",
     "@nabla/vite-plugin-eslint": "^2.0.5",
     "@types/lodash-es": "^4.17.12",
     "@types/markdown-it": "^14.1.2",
