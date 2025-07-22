@@ -1,0 +1,13 @@
+dist
+.local
+node_modules
+.nvmrc
+**/cache/*
+
+
+**/*.svg
+**/*.sh
+
+public
+.npmrc
+*-lock.yaml

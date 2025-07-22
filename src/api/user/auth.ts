@@ -40,7 +40,11 @@ export const passwordReset = (data: UserPasswordReset) => {
 export const captcha = (): Promise<
   ResponseData<{ captchaId: string; captchaImageBase64: string }>
 > => {
-  return request.get('/auth/captcha');
+  return request.get('/auth/captcha', undefined, {
+    limitTime: 3000,
+    limitType: 'Debounce',
+    requestKeyRules: 'method:url',
+  });
 };
 
 /** 获取邮箱验证码 */

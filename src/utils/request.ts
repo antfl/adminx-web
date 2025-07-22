@@ -1,4 +1,5 @@
 import { message } from 'ant-design-vue';
+import { v4 as uuidV4 } from 'uuid';
 import axios, {
   AxiosInstance,
   AxiosRequestConfig,
@@ -17,6 +18,13 @@ export interface ResponseData<T = any> {
   data: T;
   timestamp: number;
 }
+/** 请求KEY生成规则类型 */
+export type TRequestKeyRules =
+  | 'uuid'
+  | 'default'
+  | 'method:url:params'
+  | 'method:url:data'
+  | 'method:url';
 
 export interface RequestConfig extends AxiosRequestConfig {
   // 是否显示全局错误提示
@@ -27,10 +35,20 @@ export interface RequestConfig extends AxiosRequestConfig {
   preventDuplicate?: boolean;
   // 自定义错误处理
   customErrorHandler?: (error: AxiosError) => void;
+  /** 请求KEY生成规则 */
+  requestKeyRules?: TRequestKeyRules;
+  /** 限制时间 */
+  limitTime?: number;
+  /** 限制类型(默认为Throttle) */
+  limitType?: 'Throttle' | 'Debounce';
+  /** 限制请求提示内容 */
+  limitMessage?: string;
 }
 
 // 请求取消控制器映射
 const cancelTokenMap = new Map<string, CancelTokenSource>();
+/** 请求限制队列 */
+const limitQueue = new Map<string, number | NodeJS.Timeout>();
 
 class Request {
   private instance: AxiosInstance;
@@ -43,6 +61,8 @@ class Request {
     showError: true,
     withToken: true,
     preventDuplicate: false,
+    limitType: 'Throttle',
+    limitMessage: '请求已限制，请稍后再试!!!',
   };
 
   constructor(config?: RequestConfig) {
@@ -67,8 +87,16 @@ class Request {
    * - 添加认证 Token
    * - 处理重复请求
    */
-  private requestInterceptor(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
+  private requestInterceptor(
+    config: InternalAxiosRequestConfig,
+  ): InternalAxiosRequestConfig | Promise<never> {
     const requestConfig = config as RequestConfig;
+
+    // 处理限制请求
+    if (typeof requestConfig.limitTime === 'number') {
+      const limit = this.requestLimit(config);
+      if (limit) return limit;
+    }
 
     // 添加认证 Token
     if (requestConfig.withToken !== false) {
@@ -98,6 +126,45 @@ class Request {
     return config;
   }
 
+  /**
+   * 限制请求
+   * @param config 请求配置
+   */
+  private requestLimit(config: InternalAxiosRequestConfig) {
+    const requestConfig = config as RequestConfig;
+    const requestKey = this.generateRequestKey(requestConfig);
+    const oldLimitToken = limitQueue.get(requestKey);
+    const newLimitToken = setTimeout(() => {
+      limitQueue.delete(requestKey);
+      cancelTokenMap.delete(requestKey);
+    }, requestConfig.limitTime);
+    if (requestConfig.limitType === 'Debounce') {
+      clearTimeout(oldLimitToken || 0);
+      limitQueue.set(requestKey, newLimitToken);
+    }
+    if (requestConfig.limitType === 'Throttle' && !oldLimitToken) {
+      limitQueue.set(requestKey, newLimitToken);
+    }
+    if (oldLimitToken) {
+      const errorMessage = requestConfig.limitMessage;
+      if (requestConfig?.showError !== false) {
+        message.error({
+          content: errorMessage,
+          style: {
+            userSelect: 'none',
+          },
+        });
+      }
+      return Promise.reject(
+        new AxiosError(
+          errorMessage,
+          (-3).toString(),
+          requestConfig as InternalAxiosRequestConfig<any>,
+        ),
+      );
+    }
+    return null;
+  }
   /**
    * 请求错误拦截器
    */
@@ -141,6 +208,17 @@ class Request {
     // 请求完成后移除取消令牌
     if (config?.preventDuplicate && requestKey && cancelTokenMap.has(requestKey)) {
       cancelTokenMap.delete(requestKey);
+    }
+    // 处理限制请求的错误
+    if (error.code === '-3') {
+      if (config?.customErrorHandler) {
+        config.customErrorHandler(error);
+      }
+      return Promise.reject({
+        code: +error.code,
+        message: error.message,
+        data: null,
+      });
     }
 
     await this.handleHttpError(error);
@@ -336,8 +414,24 @@ class Request {
   /**
    * 生成请求唯一键
    */
+  // private generateRequestKey(config: AxiosRequestConfig): string {
+  //   return `${config.method}-${config.url}-${JSON.stringify(config.params)}-${JSON.stringify(config.data)}`;
+  // }
   private generateRequestKey(config: AxiosRequestConfig): string {
-    return `${config.method}-${config.url}-${JSON.stringify(config.params)}-${JSON.stringify(config.data)}`;
+    const rule = (config as RequestConfig).requestKeyRules ?? 'default';
+    if (rule === 'uuid') return uuidV4();
+    const { url, method, params, data } = config;
+    const _JSON = (d: any) => (d ? JSON.stringify(d) : 'null');
+    switch (rule) {
+      case 'method:url:params':
+        return `${method}-${url}-${_JSON(params)}`;
+      case 'method:url:data':
+        return `${method}-${url}-${_JSON(data)}`;
+      case 'method:url':
+        return `${method}-${url}`;
+      default:
+        return `${method}-${url}-${_JSON(params)}-${_JSON(data)}`;
+    }
   }
 
   /**
