@@ -21,6 +21,6 @@ onMounted(() => {
 
 <template>
   <a-spin :spinning="isLoading">
-    <ECharts class="h-360px" v-if="option" :option="option" />
+    <ECharts class="h-400px!" v-if="option" :option="option" />
   </a-spin>
 </template>

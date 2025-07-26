@@ -104,7 +104,8 @@ const safeHtml = computed(() => {
     }
 
     p {
-      line-height: 3rem;
+      line-height: 2.5rem;
+      word-break: break-all;
     }
   }
 }

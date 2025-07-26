@@ -6,13 +6,14 @@ import { usePermissionStore } from '@/store/modules/permission';
 import { useSystemStore } from '@/store/modules/systemStore';
 import { useTabsStore } from '@/store/modules/tabsStore';
 import { MenuProps } from 'ant-design-vue';
+import { cloneDeep } from 'lodash-es';
 
 const router = useRouter();
 const tabsStore = useTabsStore();
 const systemStore = useSystemStore();
 const permissionStore = usePermissionStore();
 const activeTab = computed(() => tabsStore.activeTab);
-const menuRoutes = computed(() => filterRoutes(permissionStore.menuRoutes));
+const menuRoutes = computed(() => filterRoutes(cloneDeep(permissionStore.menuRoutes)));
 
 const routeMap = ref<Map<string, any>>(new Map());
 

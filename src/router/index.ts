@@ -12,7 +12,7 @@ const router = createRouter({
       name: 'PasswordReset',
       component: () => import('@/views/profile/password-reset/index.vue'),
       meta: {
-        visible: true,
+        hidden: true,
         title: t('重置密码'),
       },
     },
@@ -21,21 +21,21 @@ const router = createRouter({
       name: 'Login',
       component: () => import('@/views/login/index.vue'),
       meta: {
-        visible: true,
+        hidden: true,
         title: t('🍃 登录 / 注册'),
       },
     },
   ],
 });
 
-const convertRoute = (route: RouteRaw): RouteRecordRaw => {
+const convertRoute = (parentPath = '', route: RouteRaw): RouteRecordRaw => {
+  const fullPath = parentPath + route.path;
+
   return {
     ...route,
-    children: route.children?.map(convertRoute),
-    meta: {
-      ...route.meta,
-      visible: route.meta?.visible,
-    },
+    children: route.children?.map((child) =>
+      convertRoute(`${fullPath}${fullPath.endsWith('/') ? '' : '/'}`, child),
+    ),
   } as RouteRecordRaw;
 };
 
@@ -43,32 +43,40 @@ const convertRoute = (route: RouteRaw): RouteRecordRaw => {
 router.beforeEach(async (to, _from, next) => {
   const userStore = useUserStore();
   const tabsStore = useTabsStore();
-
-  if (['Login', 'PasswordReset'].includes(to.name as string)) {
-    return next();
-  }
+  const permissionStore = usePermissionStore();
 
   if (!userStore.isAuthenticated) {
+    if (['Login', 'PasswordReset'].includes(to.name as string)) {
+      return next();
+    }
     return next({ name: 'Login', query: { redirect: to.fullPath } });
+  }
+
+  if (to.name === 'Login') {
+    return next('/');
   }
 
   if (!userStore.user) {
     try {
       const result = await userStore.getUserInfo();
       if (!result) {
-        next({ name: 'Login' });
-        return;
+        return next({ name: 'Login' });
       }
       await userStore.getPermissions();
-      const permissionStore = usePermissionStore();
-      permissionStore.menuRoutes.forEach((route: RouteRaw) => {
-        router.addRoute(convertRoute(route));
-      });
-      next({ ...to, replace: true });
     } catch {
       next({ name: 'Login' });
       return;
     }
+  }
+
+  if (!permissionStore.areRoutesAdded) {
+    permissionStore.menuRoutes.forEach((route: RouteRaw) => {
+      const convertedRoute = convertRoute('', route);
+      router.addRoute(convertedRoute);
+    });
+
+    permissionStore.setRoutesAdded(true);
+    return next(to.fullPath);
   }
 
   tabsStore.addTab(to);

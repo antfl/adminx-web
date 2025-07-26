@@ -10,7 +10,7 @@ export interface Menu {
   component: string;
   icon?: string;
   cache?: boolean;
-  visible?: boolean;
+  hidden?: boolean;
   redirect?: string;
   menuType: number;
   permission: string;

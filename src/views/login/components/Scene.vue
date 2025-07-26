@@ -37,7 +37,7 @@ const currentEnv = computed(() => (themeStore.currentTheme === 'dark' ? moon : s
 .moon-filter-icon {
   width: 25px;
   height: 25px;
-  filter: drop-shadow(0 0 1em #4d6bff);
+  filter: drop-shadow(0 0 1em #ffd500);
 }
 
 .crab-filter-icon {

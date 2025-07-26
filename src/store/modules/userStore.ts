@@ -17,6 +17,7 @@ export const useUserStore = defineStore('user', () => {
   const logout = () => {
     const permissionStore = usePermissionStore();
     permissionStore.clearPermissions();
+    permissionStore.setRoutesAdded(false);
     token.value = null;
     user.value = null;
     localStorage.removeItem('token');

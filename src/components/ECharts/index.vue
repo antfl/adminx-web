@@ -1,70 +1,96 @@
 <script lang="ts" setup>
 import * as echarts from 'echarts';
+import { debounce } from 'lodash-es';
 
 const props = defineProps({
   option: {
     type: Object,
     required: true,
   },
+  autoUpdate: {
+    type: Boolean,
+    default: true,
+  },
 });
 
-const chartContainer = ref<HTMLElement | null>(null);
+const chartContainerRef = ref<HTMLElement | null>(null);
 let chartInstance: echarts.ECharts | null = null;
+let resizeObserver: ResizeObserver | null = null;
+
+const handleResize = debounce(() => chartInstance?.resize(), 50);
 
 const initChart = () => {
-  if (!chartContainer.value) return;
-  if (chartInstance) {
-    chartInstance.dispose();
+  if (!chartContainerRef.value) return;
+
+  try {
+    if (chartInstance) {
+      chartInstance.dispose();
+      chartInstance = null;
+    }
+
+    chartInstance = echarts.init(chartContainerRef.value);
+    chartInstance.setOption(props.option);
+
+    resizeObserver = new ResizeObserver(handleResize);
+    resizeObserver.observe(chartContainerRef.value);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (e) {
+    //
   }
-  chartInstance = echarts.init(chartContainer.value);
-  chartInstance.setOption(props.option);
-  setTimeout(() => {
-    handleResize();
-  }, 100);
 };
 
-// 窗口大小变化时重新调整图表
-const handleResize = () => {
-  chartInstance?.resize();
+const updateChart = (option: any) => {
+  if (chartInstance) {
+    chartInstance.setOption(option);
+  }
 };
 
 watch(
   () => props.option,
-  () => {
-    nextTick(() => {
-      initChart();
-    });
-  },
-  {
-    immediate: true,
+  (newOption) => {
+    if (props.autoUpdate) {
+      updateChart(newOption);
+    }
   },
 );
 
+defineExpose({
+  updateChart,
+});
+
 onMounted(() => {
-  // 添加窗口大小变化监听
-  window.addEventListener('resize', handleResize);
+  nextTick(initChart);
 });
 
 onBeforeUnmount(() => {
-  // 移除事件监听
-  window.removeEventListener('resize', handleResize);
-  // 销毁图表实例
-  chartInstance?.dispose();
+  resizeObserver?.disconnect();
+  resizeObserver = null;
+
+  handleResize.cancel();
+
+  if (chartInstance) {
+    chartInstance.dispose();
+    chartInstance = null;
+  }
 });
 </script>
 
 <template>
-  <div
-    ref="chartContainer"
-    class="chart-container rd-[var(--border-radius-outer)] border-1px border-solid border-color-[var(--color-border-secondary)] w-100% h-310px overflow-hidden"
-  />
+  <div ref="chartContainerRef" class="chart-container" />
 </template>
 
 <style scoped lang="less">
 .chart-container {
+  width: 100%;
+  height: 310px;
+  overflow: hidden;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-outer);
+
   > div,
   canvas {
     width: 100% !important;
+    height: 100% !important;
   }
 }
 </style>

@@ -70,7 +70,7 @@ export const constantRoutes: RouteRaw[] = [
     path: '/exception',
     component: Layout,
     meta: {
-      visible: true,
+      hidden: true,
     },
     children: [
       {
@@ -84,7 +84,7 @@ export const constantRoutes: RouteRaw[] = [
     path: '/:pathMatch(.*)*',
     redirect: '/exception/404',
     meta: {
-      visible: true,
+      hidden: true,
     },
   },
 ];
