@@ -9,6 +9,8 @@ import CommentRender from './CommentRender.vue';
 
 const content = ref<Article>({} as Article);
 
+const emit = defineEmits(['onChange']);
+
 const handleSubmit = async (data: {
   text: string;
   done: (...args: any[]) => any;
@@ -26,16 +28,20 @@ const handleSubmit = async (data: {
   });
   message.success('评论成功');
   await getCommentList();
+  emit('onChange');
 };
 
+const total = ref(0);
+const current = ref(1);
 const commentList = ref<Comment[]>([]);
 const getCommentList = async () => {
   const res = await pageComment({
-    current: 1,
-    size: 50,
+    current: current.value,
+    size: 10,
     articleId: content.value.articleId,
   });
   commentList.value = res.data.records;
+  total.value = res.data.total;
 };
 
 const init = (data: Article) => {
@@ -56,6 +62,14 @@ defineExpose({
         <CommentRender @submit="handleSubmit" :comment="comment" />
       </li>
     </ul>
-    <a-empty v-if="commentList.length === 0" description="暂无评论，期待你的评论"> </a-empty>
+    <a-pagination
+      hideOnSinglePage
+      @change="getCommentList"
+      v-model:current="current"
+      :total="total"
+      :showSizeChanger="false"
+      show-less-items
+    />
+    <a-empty v-if="commentList.length === 0" description="暂无评论，期待你的评论"></a-empty>
   </a-card>
 </template>

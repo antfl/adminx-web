@@ -174,11 +174,12 @@ const setTabProps = (tab: MenuTab) => {
 <style lang="less">
 // 设置 tab 栏超出部分的菜单样式
 .ant-tabs-dropdown {
-  ul {
+  .ant-tabs-dropdown-menu {
+    max-height: 70vh !important;
     padding: 3px !important;
     border: 1px solid var(--color-border-secondary);
 
-    li {
+    .ant-tabs-dropdown-menu-item {
       padding: 0 !important;
       border-radius: var(--border-radius-outer);
     }

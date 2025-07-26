@@ -160,11 +160,11 @@ const setButtonProps = (active: boolean | undefined) => {
       <div ref="targetElementRef">
         <a-divider orientation="left">
           <span>评论</span>
-          <span class="ml-5px" v-if="articleData?.commentCount">{{
-            articleData?.commentCount
-          }}</span>
+          <span class="ml-5px" v-if="articleData?.commentCount">
+            {{ articleData?.commentCount }}
+          </span>
         </a-divider>
-        <CommentComposer ref="commentComposerRef" />
+        <CommentComposer @onChange="getDetail" ref="commentComposerRef" />
       </div>
     </a-card>
   </div>
