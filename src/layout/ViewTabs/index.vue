@@ -101,24 +101,25 @@ const setTabProps = (tab: MenuTab) => {
 </script>
 
 <template>
-  <div class="view-tabs-container flex items-center px-8px h-40px pos-sticky z-9 top-0">
-    <a-button
-      v-if="systemStore.layout.collapsed"
-      @click="systemStore.toggleCollapsed"
-      class="w-40px hidden md:flex items-center justify-center mr-8px"
-    >
-      <component :is="systemStore.isCollapsed ? MenuUnfoldOutlined : MenuFoldOutlined" />
-    </a-button>
+  <div class="view-tabs-container pl-8px h-40px pos-sticky z-99 top-0">
     <a-tabs
-      class="w-0 flex-auto"
       v-model:activeKey="activeTab"
       tab-position="top"
       :tabBarGutter="8"
       :tabBarStyle="{
         margin: '0',
-        height: '36px',
+        height: '38px',
       }"
     >
+      <template #leftExtra>
+        <a-button
+          v-if="systemStore.layout.collapsed"
+          @click="systemStore.toggleCollapsed"
+          class="w-40px hidden md:flex items-center justify-center mr-8px"
+        >
+          <component :is="systemStore.isCollapsed ? MenuUnfoldOutlined : MenuFoldOutlined" />
+        </a-button>
+      </template>
       <a-tab-pane v-for="tab in tabsStore.tabs" :key="tab.path">
         <template #tab>
           <a-button
