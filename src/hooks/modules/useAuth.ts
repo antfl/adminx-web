@@ -16,7 +16,7 @@ export const useAuth = () => {
     userStore.setToken(res.data.token);
     const redirect = route.query.redirect as string;
     await router.replace({
-      path: redirect || '/home',
+      path: redirect || '/',
     });
     message.success(t('登录成功'));
   };

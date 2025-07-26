@@ -17,12 +17,11 @@ import { RouteRaw } from '@/types/router';
 export const constantRoutes: RouteRaw[] = [
   {
     path: '/',
-    redirect: '/home',
     component: Layout,
     meta: { directlyShowChildren: true },
     children: [
       {
-        path: 'home',
+        path: '',
         name: 'Home',
         component: () => import('@/views/home/index.vue'),
         meta: {

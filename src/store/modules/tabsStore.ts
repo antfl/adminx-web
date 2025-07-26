@@ -9,7 +9,7 @@ export const useTabsStore = defineStore('tabs', () => {
   const tabs = ref<MenuTab[]>([]);
   const activeTab = ref('');
   const homeTab = ref<MenuTab>({
-    path: '/home',
+    path: '/',
     title: t('首页'),
     closable: false,
     icon: HomeOutlined,
@@ -36,7 +36,7 @@ export const useTabsStore = defineStore('tabs', () => {
     tabs.value.push({
       path: route.path,
       title: route.meta?.title,
-      closable: route.path !== '/home',
+      closable: route.path !== '/',
       icon: route.meta?.icon,
     });
 
@@ -46,7 +46,7 @@ export const useTabsStore = defineStore('tabs', () => {
 
   /** 移除标签 */
   const removeTab = async (path: string) => {
-    if (path === '/home') return;
+    if (path === '/') return;
 
     const removeIndex = tabs.value.findIndex((t: any) => t.path === path);
     if (removeIndex === -1) return;
@@ -69,7 +69,7 @@ export const useTabsStore = defineStore('tabs', () => {
     const tabExists = tabs.value.some((t) => t.path === path);
 
     // 更新激活状态
-    activeTab.value = tabExists ? path : '/home';
+    activeTab.value = tabExists ? path : '/';
 
     // 只有在当前路由不是目标路由时才跳转
     if (router.currentRoute.value.path !== path) {
