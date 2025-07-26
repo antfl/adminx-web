@@ -1,21 +1,30 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { MenuOutlined } from '@ant-design/icons-vue';
 import { filterRoutes } from '@/utils/router';
 import { usePermissionStore } from '@/store/modules/permission';
 import { useSystemStore } from '@/store/modules/systemStore';
 import { useTabsStore } from '@/store/modules/tabsStore';
-import { MenuProps } from 'ant-design-vue';
 import { cloneDeep } from 'lodash-es';
 
 const router = useRouter();
+const route = useRoute();
 const tabsStore = useTabsStore();
 const systemStore = useSystemStore();
 const permissionStore = usePermissionStore();
 const activeTab = computed(() => tabsStore.activeTab);
 const menuRoutes = computed(() => filterRoutes(cloneDeep(permissionStore.menuRoutes)));
 
+interface CustomMenuItem {
+  key: string;
+  label?: any;
+  icon?: any;
+  children?: CustomMenuItem[];
+  [key: string]: any;
+}
+
 const routeMap = ref<Map<string, any>>(new Map());
+const openKeys = ref<string[]>([]);
 
 const handleMenuClick = ({ key }: { key: string | number }) => {
   const path = key as string;
@@ -40,7 +49,7 @@ const resolvePath = (path: string, basePath: string) => {
   return `${normalizedBase}/${normalizedPath}`;
 };
 
-function convertRoutesToMenuItems(routes: any[], basePath: string): MenuProps['items'] {
+function convertRoutesToMenuItems(routes: any[], basePath: string): CustomMenuItem[] {
   return routes
     .map((route) => {
       if (route.meta?.directlyShowChildren && route.children) {
@@ -71,6 +80,53 @@ function convertRoutesToMenuItems(routes: any[], basePath: string): MenuProps['i
 const menuItems = computed(() => {
   return convertRoutesToMenuItems(menuRoutes.value, '');
 });
+
+const findParentKeys = (
+  items: CustomMenuItem[],
+  targetKey: string,
+  parents: string[] = [],
+): string[] => {
+  if (!items) return [];
+
+  for (const item of items) {
+    if (!item) continue;
+
+    const key = item.key as string;
+    if (key === targetKey) {
+      return parents;
+    }
+
+    if (item.children) {
+      const found = findParentKeys(item.children, targetKey, [...parents, key]);
+      if (found.length) {
+        return found;
+      }
+    }
+  }
+
+  return [];
+};
+
+const updateOpenKeys = () => {
+  if (!activeTab.value || !menuItems.value) return;
+
+  openKeys.value = findParentKeys(menuItems.value, activeTab.value);
+};
+
+watch(
+  () => route.path,
+  () => {
+    updateOpenKeys();
+  },
+);
+
+onMounted(() => {
+  updateOpenKeys();
+});
+
+const handleOpenChange = (keys: string[]) => {
+  openKeys.value = keys;
+};
 </script>
 
 <template>
@@ -81,7 +137,9 @@ const menuItems = computed(() => {
     :inline-collapsed="systemStore.isCollapsed"
     :class="systemStore.layout.menu.style"
     :selectedKeys="[activeTab]"
+    :openKeys="openKeys"
     @click="handleMenuClick"
+    @update:openKeys="handleOpenChange"
   >
     <template #overflowedIndicator>
       <MenuOutlined />
