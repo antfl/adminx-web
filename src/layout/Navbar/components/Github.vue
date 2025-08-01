@@ -36,8 +36,9 @@ const handleMenuClick = (url: string) => {
             v-for="item in gitPathList"
             :key="item.name"
             @click="handleMenuClick(item.path)"
-            >{{ item.name }}</a-menu-item
           >
+            <span>{{ item.name }}</span>
+          </a-menu-item>
         </a-menu>
       </template>
     </a-dropdown>
