@@ -10,23 +10,29 @@ import User from '@/layout/Navbar/components/User.vue';
 import logoPath from '@/assets/images/logo.jpg';
 
 import { useScreenSize } from '@/hooks/modules/useScreenSize';
+
 const screenSize = useScreenSize();
 const isMobile = computed(() => screenSize.isMobile.value);
 </script>
 
 <template>
   <div class="flex items-center justify-between px-20px">
-    <h1 class="flex items-center">
+    <div class="flex items-center">
       <div v-if="isMobile" class="w-50px">
         <slot></slot>
       </div>
-      <img class="size-30px rounded-5px hidden md:block" :src="logoPath" alt="Admin x" />
-      <div class="ml-16px font-size-18px">
-        <span>Admin</span>
-        <span class="color-[var(--color-primary)]"> x</span>
-      </div>
-      <a-tag class="ml-8px hidden md:block" :bordered="false" color="cyan">大暑版</a-tag>
-    </h1>
+      <h1>
+        <img
+          class="size-28px rounded-5px hidden md:inline-block align-text-top"
+          :src="logoPath"
+          alt="Admin x"
+        />
+        <span class="ml-8px font-size-20px">
+          <span>Admin</span>
+          <span class="color-[var(--color-primary)]"> x</span>
+        </span>
+      </h1>
+    </div>
     <div v-if="!isMobile" class="mx-55px overflow-hidden">
       <slot></slot>
     </div>

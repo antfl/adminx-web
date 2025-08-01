@@ -98,7 +98,6 @@ const getMailCode = async () => {
 /**
  * 注册
  */
-const formRef = ref();
 const handleSubmit = async () => {
   if (!checked.value) {
     message.warn('请先同意服务协议和隐私权说明');
@@ -118,7 +117,7 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <a-form @finish="handleSubmit" ref="formRef" size="large" :model="formData">
+  <a-form @finish="handleSubmit" :model="formData">
     <a-form-item name="nickname" :rules="[{ required: true, message: '请输入昵称' }]">
       <a-input v-model:value="formData.nickname" placeholder="请输入昵称"></a-input>
     </a-form-item>

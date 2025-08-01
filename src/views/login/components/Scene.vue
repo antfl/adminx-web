@@ -11,7 +11,7 @@ const currentEnv = computed(() => (themeStore.currentTheme === 'dark' ? moon : s
 
 <template>
   <img
-    class="pos-absolute left-30px top-30px size-30px"
+    class="pos-absolute right-30px top-30px size-30px"
     :class="themeStore.currentTheme === 'light' ? 'rotate-icon' : 'moon-filter-icon'"
     :src="currentEnv"
     alt=""

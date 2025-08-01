@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { UserOutlined } from '@ant-design/icons-vue';
 import { avatarList } from '@/assets/avatar/icons';
 import { viewFile, getFileToken } from '@/api/system/file';
+import BOY_AVATAR_A from '@/assets/avatar/GIRL_AVATAR_F.svg';
 
 const props = withDefaults(
   defineProps<{
@@ -49,7 +49,7 @@ watch(
 <template>
   <a-avatar :shape="shape" :src="avatar" :size="size">
     <template #icon>
-      <UserOutlined />
+      <img :src="BOY_AVATAR_A" alt="" />
     </template>
   </a-avatar>
 </template>

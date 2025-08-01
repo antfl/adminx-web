@@ -78,7 +78,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <a-form @finish="handleSubmit" :model="formData" size="large">
+  <a-form @finish="handleSubmit" :model="formData">
     <a-form-item name="username" :rules="[{ required: true, message: '请输入用户名或邮箱' }]">
       <a-input v-model:value="formData.username" placeholder="请输入用户名或邮箱"></a-input>
     </a-form-item>
@@ -95,7 +95,7 @@ onMounted(() => {
           :loading="captchaLoading"
           @click="refreshCode"
           :style="{ backgroundImage: `url(${captchaImageBase64})` }"
-          class="w-110px! bg-cover bg-no-repeat bg-[100%_100%] overflow-hidden"
+          class="block w-[110px]! h-[32px] bg-cover bg-center bg-no-repeat"
         ></a-button>
       </a-space>
     </a-form-item>
@@ -126,7 +126,7 @@ onMounted(() => {
     <span> 和 </span>
     <a-button class="px-0" type="link" @click.stop>隐私权说明</a-button>
   </a-checkbox>
-  <a-flex :gap="16" class="mt-34px" justify="center">
+  <a-flex :gap="16" class="mt-26px" justify="center">
     <a v-for="item in loginMethods" class="flex justify-center">
       <img class="h-30px rd-3px" :src="item.icon" :alt="item.name" />
     </a>
