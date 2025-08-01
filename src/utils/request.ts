@@ -10,6 +10,7 @@ import axios, {
 
 import { useAuth } from '@/hooks';
 import { useUserStore } from '@/store';
+import { generateSignature } from '@/utils/signature';
 
 export interface ResponseData<T = any> {
   code: number;
@@ -69,6 +70,13 @@ class Request {
    */
   private requestInterceptor(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
     const requestConfig = config as RequestConfig;
+
+    const timestamp = Date.now();
+    const nonce = Math.random().toString(36).substring(2, 10);
+    config.headers['X-Timestamp'] = timestamp;
+    config.headers['X-Nonce'] = nonce;
+
+    config.headers['X-Signature'] = generateSignature(config.params, config.data, timestamp, nonce);
 
     // 添加认证 Token
     if (requestConfig.withToken !== false) {
