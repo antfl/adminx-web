@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { UserOutlined } from '@ant-design/icons-vue';
 import { avatarList } from '@/assets/avatar/icons';
+import { viewFile, getFileToken } from '@/api/system/file';
+
 const props = withDefaults(
   defineProps<{
     shape?: 'circle' | 'square';
@@ -16,13 +18,32 @@ const props = withDefaults(
   },
 );
 
-const avatar = computed(() => {
-  const data = avatarList.find((item) => item.name === props.src);
-  if (data) {
-    return data.src;
+const avatar = ref('');
+
+const setAvatar = async (val: string) => {
+  if (val) {
+    const data = avatarList.find((item) => item.name === props.src);
+    if (data) {
+      return data.src;
+    }
+    if (val.includes('file-view:')) {
+      return viewFile(props.src);
+    }
+    const res = await getFileToken(props.src);
+    return viewFile(res.data);
   }
-  return props.src;
-});
+  return val;
+};
+
+watch(
+  () => props.src,
+  async () => {
+    avatar.value = await setAvatar(props.src);
+  },
+  {
+    immediate: true,
+  },
+);
 </script>
 
 <template>

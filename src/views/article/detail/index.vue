@@ -5,7 +5,6 @@ import {
   MessageOutlined,
   ArrowLeftOutlined,
   ShareAltOutlined,
-  UserOutlined,
 } from '@ant-design/icons-vue';
 import { message } from 'ant-design-vue';
 import { useRoute } from 'vue-router';
@@ -140,11 +139,7 @@ const setButtonProps = (active: boolean | undefined) => {
       </div>
       <a-spin :spinning="isLoading">
         <div class="flex items-center mb-30px">
-          <a-avatar class="flex-shrink-0" :src="articleData?.avatar" :size="50">
-            <template #icon>
-              <UserOutlined />
-            </template>
-          </a-avatar>
+          <Avatar class="flex-shrink-0" :src="articleData?.avatar" :size="50" />
           <div class="ml-8px">
             <div class="font-size-16px">{{ articleData?.nickname }}</div>
             <div class="color-#666">{{ articleData?.createTime }}</div>

@@ -4,6 +4,7 @@ import router from '@/router';
 import { UpdateUser, updateUser } from '@/api/user';
 import { message } from 'ant-design-vue';
 import { avatarList } from '@/assets/avatar/icons';
+import UploadFile from '@/components/Upload/File/index.vue';
 
 const GENDER_OPTIONS = [
   { value: 0, label: '未知' },
@@ -52,7 +53,9 @@ const setAvatar = (avatar: string) => {
           name="avatar"
           :rules="[{ required: true, message: '请选择头像' }]"
         >
-          <Avatar shape="square" :src="formState.avatar" :size="60" />
+          <UploadFile @change="setAvatar">
+            <Avatar class="cursor-pointer" shape="square" :src="formState.avatar" :size="60" />
+          </UploadFile>
           <div class="mt-20px mb-30px">
             <a-space :size="[10, 10]" wrap>
               <template v-for="avatar in avatarList" :key="avatar">
