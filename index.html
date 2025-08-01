@@ -55,6 +55,17 @@
     </style>
   </head>
   <body>
+    <script>
+      (function () {
+        const themeMode = localStorage.getItem('theme-mode');
+        let bgThemeColor = localStorage.getItem('bgThemeColor');
+        if (!bgThemeColor) {
+          bgThemeColor = themeMode === 'dark' ? '#1f1f1f' : '#fff';
+        }
+        document.documentElement.style.setProperty('--color-bg-elevated', bgThemeColor);
+        document.body.style.setProperty('background', bgThemeColor);
+      })();
+    </script>
     <div id="app-loading-container">
       <div class="bouncing-letters">
         <span class="letter" style="color: #333; animation-delay: 0s">A</span>

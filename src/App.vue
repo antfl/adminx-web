@@ -9,19 +9,17 @@ import { useThemeStore } from '@/store/modules/theme';
 import { useAppLoading } from '@/hooks/modules/useAppLoading';
 import { usePageTitle } from '@/hooks/modules/usePageTitle';
 usePageTitle();
+useAppLoading();
 
 const { locale } = useI18n();
 const themeStore = useThemeStore();
 const { themeConfig } = storeToRefs(themeStore);
-const { isAppLoaded } = useAppLoading();
 
 const antLocale = computed(() => (locale.value === 'zh-CN' ? zhCN : enUS));
 </script>
 
 <template>
-  <div v-show="isAppLoaded">
-    <a-config-provider :theme="themeConfig" :locale="antLocale">
-      <RouterView />
-    </a-config-provider>
-  </div>
+  <a-config-provider :theme="themeConfig" :locale="antLocale">
+    <RouterView />
+  </a-config-provider>
 </template>

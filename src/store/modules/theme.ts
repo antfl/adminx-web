@@ -52,6 +52,8 @@ export const useThemeStore = defineStore('theme', () => {
       vars[varName] = String(varValue);
     });
 
+    localStorage.setItem('bgThemeColor', vars['--color-bg-elevated']);
+
     // 添加主色调变量
     vars['--color-primary'] = primaryColor.value;
     return vars;
