@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { avatarList } from '@/assets/avatar/icons';
 import { viewFile, getFileToken } from '@/api/system/file';
-import BOY_AVATAR_A from '@/assets/avatar/GIRL_AVATAR_F.svg';
+import BOY_AVATAR_A from '@/assets/avatar/BOY_AVATAR_A.svg';
 
 const props = withDefaults(
   defineProps<{
