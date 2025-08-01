@@ -49,7 +49,11 @@ router.beforeEach(async (to, _from, next) => {
     if (['Login', 'PasswordReset'].includes(to.name as string)) {
       return next();
     }
-    return next({ name: 'Login', query: { redirect: to.fullPath } });
+    const location = { name: 'Login', query: {} };
+    if (to.fullPath && to.fullPath !== '/') {
+      location.query = { redirect: to.fullPath };
+    }
+    return next(location);
   }
 
   if (to.name === 'Login') {
