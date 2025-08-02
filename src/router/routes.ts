@@ -18,6 +18,7 @@ export const constantRoutes: RouteRaw[] = [
   {
     path: '/',
     component: Layout,
+    redirect: { name: 'Home' },
     meta: { directlyShowChildren: true },
     children: [
       {
