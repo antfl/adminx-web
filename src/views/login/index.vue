@@ -14,9 +14,11 @@ const toggleChange = () => {
 <template>
   <div class="login-container select-none w-screen h-screen pos-absolute">
     <div class="h-full flex items-center justify-center">
-      <a-card class="filter-container pos-absolute w-370px md:w-400px pt-60px pb-10px px-10px">
+      <a-card
+        class="pos-absolute pt-40px pb-10px px-10px w-350px md:w-375px filter-container z-100"
+      >
         <ThemeLocaleSwitcher />
-        <div class="font-size-24px mb-30px">
+        <div class="font-size-24px mb-20px">
           <span>{{ isLogin ? '欢迎登录' : '欢迎注册' }} </span>
         </div>
         <LoginForm v-if="isLogin" @toggle="toggleChange" />

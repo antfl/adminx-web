@@ -124,9 +124,9 @@ onMounted(() => {
     我已阅读并同意
     <a-button class="px-0" type="link" @click.stop>服务协议</a-button>
     <span> 和 </span>
-    <a-button class="px-0" type="link" @click.stop>隐私权说明</a-button>
+    <a-button class="px-0" type="link" @click.stop>隐私政策</a-button>
   </a-checkbox>
-  <a-flex :gap="16" class="mt-26px" justify="center">
+  <a-flex :gap="16" class="mt-34px" justify="center">
     <a v-for="item in loginMethods" class="flex justify-center">
       <img class="h-30px rd-3px" :src="item.icon" :alt="item.name" />
     </a>
