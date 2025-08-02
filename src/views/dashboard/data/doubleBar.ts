@@ -66,7 +66,7 @@ export const doubleBar = () => {
     },
     xAxis: {
       type: 'category',
-      data: ['Python', 'JavaScript', 'Java', 'Go', 'Rust', 'TypeScript', 'Kotlin'],
+      data: ['Python', 'JavaScript', 'Java', 'Go', 'Rust'],
       axisLine: {
         lineStyle: {
           color: getLessVar('--color-border-secondary'),
@@ -94,7 +94,7 @@ export const doubleBar = () => {
       },
       splitLine: {
         lineStyle: {
-          color: getLessVar('--color-text'),
+          color: getLessVar('--color-border-secondary'),
           width: 1,
           type: 'dashed',
         },
@@ -111,8 +111,8 @@ export const doubleBar = () => {
       {
         name: '生态稳定性',
         type: 'bar',
-        barWidth: 30,
-        data: [92, 88, 90, 85, 82, 87, 80],
+        barWidth: 40,
+        data: [92, 88, 90, 85, 82],
         itemStyle: {
           color: {
             type: 'linear',
@@ -125,7 +125,7 @@ export const doubleBar = () => {
               { offset: 1, color: '#4b0082' },
             ],
           },
-          borderRadius: [8, 8, 0, 0],
+          borderRadius: 4,
           borderWidth: 0,
         },
         label: {
@@ -145,8 +145,8 @@ export const doubleBar = () => {
       {
         name: '开发者热度',
         type: 'bar',
-        barWidth: 30,
-        data: [95, 93, 85, 88, 90, 92, 82],
+        barWidth: 40,
+        data: [95, 93, 85, 88, 90],
         itemStyle: {
           color: {
             type: 'linear',
@@ -159,7 +159,7 @@ export const doubleBar = () => {
               { offset: 1, color: '#008b8b' },
             ],
           },
-          borderRadius: [8, 8, 0, 0],
+          borderRadius: 4,
           borderWidth: 0,
         },
         label: {

@@ -19,7 +19,7 @@ export const createOption = (source: any[]) => {
             { offset: 1, color: '#0958d9' },
           ],
         },
-        borderRadius: [6, 6, 0, 0],
+        borderRadius: [3, 3, 0, 0],
       },
       label: {
         show: true,
@@ -105,7 +105,7 @@ export const createOption = (source: any[]) => {
       },
       splitLine: {
         lineStyle: {
-          color: '#eee',
+          color: getLessVar('--color-border-secondary'),
           type: 'dashed',
         },
       },
@@ -124,7 +124,7 @@ export const createOption = (source: any[]) => {
       axisPointer: {
         type: 'shadow',
         shadowStyle: {
-          color: 'rgba(0,229,255,0.2)',
+          color: 'rgba(4, 158, 236, 0.2)',
         },
       },
     },

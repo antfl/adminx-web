@@ -41,8 +41,8 @@ export const createPie = ({ data = [], name = '' }: { data: any[]; name: string 
       {
         name: '数据分布',
         type: 'pie',
-        radius: ['45%', '70%'],
-        center: ['40%', '52%'],
+        radius: ['35%', '60%'],
+        center: ['40%', '50%'],
         avoidLabelOverlap: true,
         hoverOffset: 10,
         itemStyle: {

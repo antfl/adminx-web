@@ -38,7 +38,7 @@ export const lineBar = () => {
       },
       splitLine: {
         lineStyle: {
-          color: getLessVar('--color-text-secondary'),
+          color: getLessVar('--color-border-secondary'),
           type: 'dashed',
         },
       },
@@ -63,7 +63,7 @@ export const lineBar = () => {
               { offset: 1, color: '#0958d9' },
             ],
           },
-          borderRadius: [6, 6, 0, 0],
+          borderRadius: [11, 3],
         },
         label: {
           show: true,
