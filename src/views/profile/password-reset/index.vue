@@ -104,7 +104,6 @@ const getMailCode = async () => {
 /**
  * 修改密码
  */
-const formRef = ref();
 const handleSubmit = async () => {
   isLoading.value = true;
   formData.captchaId = captchaId.value;
@@ -121,7 +120,7 @@ const handleSubmit = async () => {
 <template>
   <a-page-header title="重置密码" @back="() => router.back()" />
   <div class="px-20px m-auto max-w-500px">
-    <a-form @finish="handleSubmit" ref="formRef" layout="vertical" size="large" :model="formData">
+    <a-form @finish="handleSubmit" layout="vertical" size="large" :model="formData">
       <a-form-item name="email" label="邮箱" :rules="[{ required: true, message: '请输入邮箱' }]">
         <a-input v-model:value="formData.email" placeholder="请输入邮箱"></a-input>
       </a-form-item>
@@ -172,7 +171,7 @@ const handleSubmit = async () => {
           <a-button
             @click="getMailCode"
             :loading="sendLoading"
-            class="min-w-110px"
+            class="min-w-150px"
             :disabled="countdown > 0"
           >
             {{ countdown > 0 ? `${countdown}秒后重发` : '发送验证码' }}

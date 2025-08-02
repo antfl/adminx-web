@@ -78,7 +78,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <a-form @finish="handleSubmit" :model="formData">
+  <a-form @finish="handleSubmit" :model="formData" size="large">
     <a-form-item name="username" :rules="[{ required: true, message: '请输入用户名或邮箱' }]">
       <a-input v-model:value="formData.username" placeholder="请输入用户名或邮箱"></a-input>
     </a-form-item>
@@ -95,7 +95,7 @@ onMounted(() => {
           :loading="captchaLoading"
           @click="refreshCode"
           :style="{ backgroundImage: `url(${captchaImageBase64})` }"
-          class="block w-[110px]! h-[32px] bg-cover bg-center bg-no-repeat"
+          class="w-[110px]! bg-cover bg-center bg-no-repeat"
         ></a-button>
       </a-space>
     </a-form-item>

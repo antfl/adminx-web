@@ -117,7 +117,7 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <a-form @finish="handleSubmit" :model="formData">
+  <a-form @finish="handleSubmit" :model="formData" size="large">
     <a-form-item name="nickname" :rules="[{ required: true, message: '请输入昵称' }]">
       <a-input v-model:value="formData.nickname" placeholder="请输入昵称"></a-input>
     </a-form-item>
