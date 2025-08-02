@@ -4,6 +4,8 @@ import { message } from 'ant-design-vue';
 import ArcMenu from '@/components/ArcMenu/index.vue';
 import DailyStats from './components/DailyStats/index.vue';
 import ModuleStats from './components/ModuleStats/index.vue';
+import NewUsers from './components/NewUsers/index.vue';
+import ActiveUsers from './components/ActiveUsers/index.vue';
 import { useThemeStore } from '@/store/modules/theme';
 
 const { themeChange } = useThemeStore();
@@ -51,6 +53,12 @@ const initialPosition = {
       </div>
     </a-card>
     <a-row v-if="!isLoading" class="mt-10px" :gutter="[10, 10]">
+      <a-col :span="24" :xl="12">
+        <ActiveUsers />
+      </a-col>
+      <a-col :span="24" :xl="12">
+        <NewUsers />
+      </a-col>
       <a-col :span="24" :xl="12">
         <DailyStats />
       </a-col>

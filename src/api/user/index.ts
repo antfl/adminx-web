@@ -11,6 +11,17 @@ export interface User {
   gender: number;
 }
 
+export interface RecentUser {
+  nickname: string;
+  avatar: string;
+}
+
+export interface ActiveUser {
+  nickname: string;
+  avatar: string;
+  operationCount: number;
+}
+
 export interface PermissionData {
   menus: Menu[];
   permissions: string[];
@@ -34,4 +45,12 @@ export const fetchPermissions = (): Promise<ResponseData<PermissionData>> => {
 
 export const updateUser = (data: UpdateUser) => {
   return request.post('/user/updateUser', data);
+};
+
+export const userRecent = (): Promise<ResponseData<RecentUser[]>> => {
+  return request.get('/user/recent');
+};
+
+export const userActive = (): Promise<ResponseData<ActiveUser[]>> => {
+  return request.get('/user/active');
 };
