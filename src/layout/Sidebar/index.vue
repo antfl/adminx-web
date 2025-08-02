@@ -134,7 +134,6 @@ const handleOpenChange = (keys: string[]) => {
     class="[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
     :items="menuItems"
     :mode="systemStore.layout.menu.mode"
-    :inline-collapsed="systemStore.isCollapsed"
     :class="systemStore.layout.menu.style"
     :selectedKeys="[activeTab]"
     :openKeys="openKeys"

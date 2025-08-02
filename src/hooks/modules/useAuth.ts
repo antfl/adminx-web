@@ -24,12 +24,11 @@ export const useAuth = () => {
   /** 退出登录 */
   const signOut = async () => {
     userStore.logout();
-    await router.push({
-      path: '/login',
-      query: {
-        redirect: router.currentRoute.value.fullPath,
-      },
-    });
+    const location = { name: 'Login', query: {} };
+    if (route.fullPath && route.fullPath !== '/') {
+      location.query = { redirect: route.fullPath };
+    }
+    await router.push(location);
   };
 
   return {
