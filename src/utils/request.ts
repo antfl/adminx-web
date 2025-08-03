@@ -11,6 +11,7 @@ import axios, {
 import { useAuth } from '@/hooks';
 import { useUserStore } from '@/store';
 import { generateSignature } from '@/utils/signature';
+import { getFingerprint } from '@/utils/fingerprint';
 
 export interface ResponseData<T = any> {
   code: number;
@@ -71,12 +72,8 @@ class Request {
   private requestInterceptor(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
     const requestConfig = config as RequestConfig;
 
-    const timestamp = Date.now();
-    const nonce = Math.random().toString(36).substring(2, 10);
-    config.headers['X-Timestamp'] = timestamp;
-    config.headers['X-Nonce'] = nonce;
-
-    config.headers['X-Signature'] = generateSignature(config.params, config.data, timestamp, nonce);
+    config.headers['Req-Signature'] = generateSignature(config.params, config.data);
+    config.headers['Req-Device-Fingerprint'] = getFingerprint();
 
     // 添加认证 Token
     if (requestConfig.withToken !== false) {
@@ -237,6 +234,12 @@ class Request {
       default:
         errorMessage = `连接错误 ${status}`;
     }
+
+    // 页面显示
+    // if (error.response?.headers['content-type'] === 'text/html;charset=UTF-8') {
+    //   document.write(error.response?.data as string);
+    //   return Promise.reject();
+    // }
 
     // 显示错误消息
     if (config?.showError !== false) {

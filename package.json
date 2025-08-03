@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
+    "@fingerprintjs/fingerprintjs": "^4.6.2",
     "@vueuse/core": "^13.4.0",
     "ant-design-vue": "4.2.6",
     "axios": "^1.10.0",
