@@ -17,6 +17,7 @@ const userFormModalRef = ref();
 const formState = reactive({
   username: '',
   nickname: '',
+  status: 0,
 });
 
 const columns = [
@@ -35,6 +36,9 @@ const columns = [
     title: '用户名',
     dataIndex: 'username',
     key: 'username',
+    customRender: ({ record }: { record: Record<string, any> }) => {
+      return record.username ?? '-';
+    },
   },
   {
     width: 150,
@@ -140,6 +144,23 @@ onMounted(() => {
         <a-form-item label="昵称" name="nickname">
           <a-input placeholder="请输入" v-model:value="formState.nickname" />
         </a-form-item>
+        <a-form-item label="状态" name="status">
+          <a-select
+            placeholder="请选择"
+            class="w-100px!"
+            :options="[
+              {
+                label: '正常',
+                value: 0,
+              },
+              {
+                label: '停用',
+                value: 1,
+              },
+            ]"
+            v-model:value="formState.status"
+          />
+        </a-form-item>
         <a-form-item>
           <a-button @click="handleReset">
             <ReloadOutlined />
@@ -158,6 +179,7 @@ onMounted(() => {
         size="small"
         :data-source="dataSource"
         bordered
+        emptyText="-"
         @change="handleTableChange"
         :pagination="pagination"
         :scroll="{ x: 110 }"
@@ -172,7 +194,7 @@ onMounted(() => {
           </template>
           <template v-if="column.key === 'status'">
             <a-tag :color="record.status === 0 ? 'processing' : 'error'" :bordered="false"
-              >{{ record.status === 0 ? '启用' : '停用' }}
+              >{{ record.status === 0 ? '正常' : '停用' }}
             </a-tag>
           </template>
           <template v-if="column.key === 'action'">
