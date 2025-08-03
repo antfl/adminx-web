@@ -1,13 +1,15 @@
 import CryptoJS from 'crypto-js';
+import { generateNonce } from '@/utils/index';
 
 const SECRET_KEY = import.meta.env.VITE_API_SECRET;
 
 export const generateSignature = (
   urlParams: Record<string, any> = {},
   bodyParams: Record<string, any> = {},
-  timestamp: number,
-  nonce: string,
 ): string => {
+  const timestamp = Date.now();
+  const nonce = generateNonce();
+
   // 合并所有参数
   const allParams = { ...urlParams, ...bodyParams };
 
@@ -26,7 +28,11 @@ export const generateSignature = (
   const rawData = parts.join('&');
 
   // 生成签名
-  return CryptoJS.HmacSHA256(rawData, SECRET_KEY).toString(CryptoJS.enc.Hex);
+  return Object.values({
+    nonce,
+    timestamp,
+    signature: CryptoJS.HmacSHA256(rawData, SECRET_KEY).toString(CryptoJS.enc.Hex),
+  }).join('/');
 };
 
 // 值规范化函数
