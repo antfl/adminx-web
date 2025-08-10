@@ -24,7 +24,7 @@ export default defineComponent({
     },
     clickThreshold: {
       type: Number,
-      default: 5,
+      default: 9,
     },
   },
   setup(props) {

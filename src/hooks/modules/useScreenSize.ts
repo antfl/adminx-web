@@ -6,17 +6,18 @@ export const useScreenSize = () => {
 
   const isMobile = computed(() => currentInnerWidth.value < breakpoint);
 
-  let screenCallBack: (value: boolean) => void;
+  const changeCallbacks = new Set<(value: boolean) => void>();
   const onChange = (callback: (value: boolean) => void) => {
-    screenCallBack = callback;
+    changeCallbacks.add(callback);
+    return () => {
+      changeCallbacks.delete(callback);
+    };
   };
 
   const checkScreenSize = debounce(
     () => {
       currentInnerWidth.value = window.innerWidth;
-      if (typeof screenCallBack === 'function') {
-        screenCallBack(isMobile.value);
-      }
+      changeCallbacks.forEach((cb) => cb(isMobile.value));
     },
     200,
     { leading: true },

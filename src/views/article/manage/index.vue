@@ -1,14 +1,11 @@
 <script setup lang="ts">
 import { SearchOutlined, ReloadOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import { message, TablePaginationConfig } from 'ant-design-vue';
-import { onMounted } from 'vue';
 
 import { Article, articlePage, delArticle } from '@/api/article/article';
 import ConfirmButton from '@/components/ConfirmButton/index.vue';
 import { t } from '@/i18n';
 import router from '@/router';
-
-import FormModal from './components/FormModal/index.vue';
 
 const pagination = reactive<TablePaginationConfig>({
   current: 1,
@@ -77,22 +74,12 @@ const columns = [
 ];
 const dataSource = ref<Article[]>([]);
 
-const formModalRef = ref();
 const handleAdd = () => {
-  formModalRef.value.showModal({
-    onSuccess: () => {
-      getDataSource();
-    },
-  });
+  router.push({ name: 'ArticleEditor' });
 };
 
 const handleEdit = (row: Article) => {
-  formModalRef.value.showModal({
-    row,
-    onSuccess: () => {
-      getDataSource();
-    },
-  });
+  router.push({ name: 'ArticleEditor', query: { id: row.articleId } });
 };
 
 const isLoading = ref(false);
@@ -191,6 +178,5 @@ onMounted(() => {
         </template>
       </a-table>
     </a-card>
-    <FormModal ref="formModalRef" />
   </div>
 </template>

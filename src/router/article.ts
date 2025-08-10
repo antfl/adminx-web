@@ -17,6 +17,12 @@ export const articleList = [
         meta: { title: t('文章管理') },
       },
       {
+        path: 'editor',
+        name: 'ArticleEditor',
+        component: () => import('@/views/article/editor/index.vue'),
+        meta: { hidden: true, title: t('写文章') },
+      },
+      {
         path: 'category',
         name: 'ArticleCategory',
         component: () => import('@/views/article/category/index.vue'),

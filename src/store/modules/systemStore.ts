@@ -29,7 +29,7 @@ export const useSystemStore = defineStore('system', () => {
   const layout = computed(() => layoutConfig[currentLayout.value]);
 
   const { onChange } = useScreenSize();
-  onChange((isMobile: boolean) => {
+  const unregister = onChange((isMobile: boolean) => {
     if (isMobile) {
       currentLayout.value = 'UNBOUNDED';
       isCollapsed.value = true;
@@ -39,6 +39,10 @@ export const useSystemStore = defineStore('system', () => {
   const toggleCollapsed = () => (isCollapsed.value = !isCollapsed.value);
   const setLayout = (value: LayoutType) => (currentLayout.value = value);
   const setCollapsed = (value: boolean) => (isCollapsed.value = value);
+
+  onUnmounted(() => {
+    unregister();
+  });
 
   return {
     isCollapsed,

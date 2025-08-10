@@ -82,7 +82,7 @@ const setButtonProps = (active: boolean | undefined) => {
 
 <template>
   <div class="m-10px">
-    <a-card class="m-auto w-66%">
+    <a-card class="m-auto w-100% md:w-70%">
       <div class="pos-absolute top-150px">
         <div class="pos-sticky z-100 left-0 -translate-x-90px">
           <a-flex vertical :gap="16">
@@ -137,21 +137,19 @@ const setButtonProps = (active: boolean | undefined) => {
           </a-flex>
         </div>
       </div>
-      <a-spin :spinning="isLoading">
-        <div class="flex items-center mb-30px">
-          <Avatar class="flex-shrink-0" :src="articleData?.avatar" :size="50" />
-          <div class="ml-8px">
-            <div class="font-size-16px">{{ articleData?.nickname }}</div>
-            <div class="color-#666">{{ articleData?.createTime }}</div>
-          </div>
+      <div class="flex items-center mb-30px">
+        <Avatar class="flex-shrink-0" :src="articleData?.avatar" :size="50" />
+        <div class="ml-8px">
+          <div class="font-size-16px">{{ articleData?.nickname }}</div>
+          <div class="color-#666">{{ articleData?.createTime }}</div>
         </div>
-        <h1 class="mb-16px font-size-20px">{{ articleData?.title }}</h1>
-        <a-badge-ribbon :text="articleData?.categoryName">
-          <a-card>
-            <MarkdownViewer v-if="articleData" :content="articleData.content" />
-          </a-card>
-        </a-badge-ribbon>
-      </a-spin>
+      </div>
+      <h1 class="mb-16px font-size-20px">{{ articleData?.title }}</h1>
+      <a-badge-ribbon :text="articleData?.categoryName">
+        <a-card :loading="isLoading">
+          <MarkdownViewer :content="articleData?.content" />
+        </a-card>
+      </a-badge-ribbon>
       <div ref="targetElementRef">
         <a-divider orientation="left">
           <span>评论</span>

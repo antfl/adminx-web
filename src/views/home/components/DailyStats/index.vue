@@ -34,6 +34,6 @@ onUnmounted(() => {
 
 <template>
   <a-spin :spinning="isLoading">
-    <ECharts :key="10000" ref="EChartsRef" class="h-330px!" />
+    <ECharts ref="EChartsRef" class="h-330px!" />
   </a-spin>
 </template>
