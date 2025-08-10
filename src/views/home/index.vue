@@ -6,17 +6,8 @@ import DailyStats from './components/DailyStats/index.vue';
 import ModuleStats from './components/ModuleStats/index.vue';
 import NewUsers from './components/NewUsers/index.vue';
 import ActiveUsers from './components/ActiveUsers/index.vue';
-import { useThemeStore } from '@/store/modules/theme';
+import { getTimeGreeting } from '@/utils';
 
-const { themeChange } = useThemeStore();
-
-const isLoading = ref(false);
-themeChange(() => {
-  isLoading.value = true;
-  nextTick(() => {
-    isLoading.value = false;
-  });
-});
 interface MenuItem {
   name: string;
   icon: string;
@@ -47,12 +38,14 @@ const initialPosition = {
         <h1>首页</h1>
         <div class="mt-8px flex justify-between items-end font-size-16px">
           <p>
-            欢迎使用 Admin<span class="ml-8px font-size-20px color-[var(--color-primary)]">x</span>
+            <span>{{ getTimeGreeting() }}</span>
+            <span>欢迎使用 Admin</span>
+            <span class="ml-8px font-size-20px color-[var(--color-primary)]">x</span>
           </p>
         </div>
       </div>
     </a-card>
-    <a-row v-if="!isLoading" class="mt-10px" :gutter="[10, 10]">
+    <a-row class="mt-10px" :gutter="[10, 10]">
       <a-col :span="24" :xl="12">
         <ActiveUsers />
       </a-col>
