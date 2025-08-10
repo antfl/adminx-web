@@ -45,12 +45,16 @@ const getCardList = () => {
 
 const cardList = ref();
 
-themeChange(() => {
+const unregister = themeChange(() => {
   cardList.value = getCardList();
 });
 
 onMounted(() => {
   cardList.value = getCardList();
+});
+
+onUnmounted(() => {
+  unregister();
 });
 </script>
 

@@ -5,11 +5,7 @@ import { debounce } from 'lodash-es';
 const props = defineProps({
   option: {
     type: Object,
-    required: true,
-  },
-  autoUpdate: {
-    type: Boolean,
-    default: true,
+    required: false,
   },
 });
 
@@ -17,7 +13,7 @@ const chartContainerRef = ref<HTMLElement | null>(null);
 let chartInstance: echarts.ECharts | null = null;
 let resizeObserver: ResizeObserver | null = null;
 
-const handleResize = debounce(() => chartInstance?.resize(), 50);
+const handleResize = debounce(() => resize(), 50);
 
 const initChart = () => {
   if (!chartContainerRef.value) return;
@@ -29,33 +25,31 @@ const initChart = () => {
     }
 
     chartInstance = echarts.init(chartContainerRef.value);
-    chartInstance.setOption(props.option);
+    if (props.option) {
+      chartInstance.setOption(props.option);
+    }
 
     resizeObserver = new ResizeObserver(handleResize);
     resizeObserver.observe(chartContainerRef.value);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (e) {
+  } catch {
     //
   }
 };
 
 const updateChart = (option: any) => {
   if (chartInstance) {
-    chartInstance.setOption(option);
+    chartInstance.setOption(option, true);
+    resize();
   }
 };
 
-watch(
-  () => props.option,
-  (newOption) => {
-    if (props.autoUpdate) {
-      updateChart(newOption);
-    }
-  },
-);
+const resize = () => {
+  chartInstance?.resize();
+};
 
 defineExpose({
   updateChart,
+  resize,
 });
 
 onMounted(() => {

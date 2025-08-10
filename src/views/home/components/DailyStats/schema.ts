@@ -104,10 +104,7 @@ export const createOption = (source: any[]) => {
         padding: [0, 0, 10, -10],
       },
       splitLine: {
-        lineStyle: {
-          color: getLessVar('--color-border-secondary'),
-          type: 'dashed',
-        },
+        show: false,
       },
       axisLabel: {
         color: getLessVar('--color-text-secondary'),

@@ -90,9 +90,12 @@ export const useThemeStore = defineStore('theme', () => {
     primaryColor.value = color;
   }, 500);
 
-  let themeChangeCallBack: () => void;
+  const themeChangeCallbacks = new Set<() => void>();
   const themeChange = (callback: () => void) => {
-    themeChangeCallBack = callback;
+    themeChangeCallbacks.add(callback);
+    return () => {
+      themeChangeCallbacks.delete(callback);
+    };
   };
 
   // 监听主题相关变化并应用
@@ -100,7 +103,7 @@ export const useThemeStore = defineStore('theme', () => {
     [currentTheme, primaryColor],
     () => {
       applyTheme();
-      themeChangeCallBack && themeChangeCallBack();
+      themeChangeCallbacks.forEach((cb) => cb());
     },
     { immediate: true },
   );
