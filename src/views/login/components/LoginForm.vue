@@ -60,15 +60,18 @@ const handleRegister = () => {
 const loginMethods = [
   {
     icon: qqIcon,
-    name: 'QQ 登录',
+    name: '使用 QQ 登录',
+    href: 'https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=102805332&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fconnect.qq.com%2Fsdk%2Fwebtools%2Findex2.html',
   },
   {
     icon: wxIcon,
-    name: '微信登录',
+    name: '使用微信登录',
+    href: '',
   },
   {
     icon: githubIcon,
-    name: 'Github',
+    name: '使用 Github 登录',
+    href: '',
   },
 ];
 
@@ -127,7 +130,14 @@ onMounted(() => {
     <a-button class="px-0" type="link" @click.stop>隐私政策</a-button>
   </a-checkbox>
   <a-flex :gap="16" class="mt-34px" justify="center">
-    <a v-for="item in loginMethods" class="flex justify-center">
+    <a
+      v-for="item in loginMethods"
+      class="flex justify-center"
+      :title="item.name"
+      :aria-label="item.name"
+      :data-tooltip="item.name"
+      :href="item.href"
+    >
       <img class="h-30px rd-3px" :src="item.icon" :alt="item.name" />
     </a>
   </a-flex>
