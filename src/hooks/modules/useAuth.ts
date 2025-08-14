@@ -1,9 +1,10 @@
 import { message } from 'ant-design-vue';
 import { useRoute, useRouter } from 'vue-router';
 
-import { userLogin, type UserLogin } from '@/api/user/auth';
+import { qqUserLogin, userLogin, type UserLogin } from '@/api/user/auth';
 import { t } from '@/i18n';
 import { useUserStore } from '@/store';
+import { extractParams } from '@/api/user/qq';
 
 export const useAuth = () => {
   const route = useRoute();
@@ -21,6 +22,17 @@ export const useAuth = () => {
     message.success(t('登录成功'));
   };
 
+  /** QQ 登录 */
+  const qqLogin = async (code: string) => {
+    const res = await qqUserLogin(code);
+    userStore.setToken(res.data.token);
+    const params = extractParams(route.fullPath);
+    await router.replace({
+      path: params?.redirect || '/',
+    });
+    message.success({ content: t('登录成功'), key: code });
+  };
+
   /** 退出登录 */
   const signOut = async () => {
     userStore.logout();
@@ -32,6 +44,7 @@ export const useAuth = () => {
   };
 
   return {
+    qqLogin,
     accountLogin,
     signOut,
   };

@@ -31,6 +31,11 @@ export const userLogin = (data: UserLogin): Promise<ResponseData<LoginResponse>>
   return request.post<LoginResponse>('/auth/login', data, { withToken: false });
 };
 
+/** QQ 登录 */
+export const qqUserLogin = (code: string): Promise<ResponseData<LoginResponse>> => {
+  return request.post<LoginResponse>('/auth/qq', { code }, { withToken: false });
+};
+
 /** 重置密码 */
 export const passwordReset = (data: UserPasswordReset) => {
   return request.post('/auth/passwordReset', data);

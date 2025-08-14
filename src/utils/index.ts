@@ -31,3 +31,12 @@ export const getTimeGreeting = () => {
     return '晚上好！'; // 18:00 - 23:59
   }
 };
+
+/**
+ * 是否 QQ 头像
+ * @param url
+ */
+export const isQQAvatar = (url: string) => {
+  if (url == null) return false;
+  return url.includes('/ek_qqapp/') || url.toLowerCase().includes('thirdqq.qlogo.cn');
+};

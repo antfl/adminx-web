@@ -235,12 +235,6 @@ class Request {
         errorMessage = `连接错误 ${status}`;
     }
 
-    // 页面显示
-    // if (error.response?.headers['content-type'] === 'text/html;charset=UTF-8') {
-    //   document.write(error.response?.data as string);
-    //   return Promise.reject();
-    // }
-
     // 显示错误消息
     if (config?.showError !== false) {
       message.error(errorMessage);

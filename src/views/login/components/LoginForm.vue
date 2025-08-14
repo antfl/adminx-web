@@ -6,6 +6,11 @@ import { captcha } from '@/api/user/auth';
 import qqIcon from '@/assets/images/qq.png';
 import wxIcon from '@/assets/images/wx.png';
 import githubIcon from '@/assets/images/github.png';
+import { extractParams, qqLoginURL } from '@/api/user/qq';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+
 const checked = ref(false);
 const auth = useAuth();
 const isLoading = ref(false);
@@ -61,7 +66,7 @@ const loginMethods = [
   {
     icon: qqIcon,
     name: '使用 QQ 登录',
-    href: 'https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=102805332&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fconnect.qq.com%2Fsdk%2Fwebtools%2Findex2.html',
+    href: qqLoginURL(),
   },
   {
     icon: wxIcon,
@@ -75,8 +80,20 @@ const loginMethods = [
   },
 ];
 
-onMounted(() => {
-  refreshCode();
+/**
+ * QQ 登录回调
+ */
+const qqLoginCallback = () => {
+  const params = extractParams(route.fullPath);
+  if (params?.code) {
+    message.loading({ content: '登录中', key: params.code, duration: 10 });
+    auth.qqLogin(params.code);
+  }
+};
+
+onMounted(async () => {
+  qqLoginCallback();
+  await refreshCode();
 });
 </script>
 
@@ -131,12 +148,13 @@ onMounted(() => {
   </a-checkbox>
   <a-flex :gap="16" class="mt-34px" justify="center">
     <a
-      v-for="item in loginMethods"
+      v-for="(item, index) in loginMethods"
       class="flex justify-center"
       :title="item.name"
       :aria-label="item.name"
       :data-tooltip="item.name"
       :href="item.href"
+      :style="`opacity: ${index === 0 ? 1 : 0.3}`"
     >
       <img class="h-30px rd-3px" :src="item.icon" :alt="item.name" />
     </a>
