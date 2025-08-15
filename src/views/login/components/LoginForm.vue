@@ -7,9 +7,6 @@ import qqIcon from '@/assets/images/qq.png';
 import wxIcon from '@/assets/images/wx.png';
 import githubIcon from '@/assets/images/github.png';
 import { extractParams, qqLoginURL } from '@/api/user/qq';
-import { useRoute } from 'vue-router';
-
-const route = useRoute();
 
 const checked = ref(false);
 const auth = useAuth();
@@ -84,7 +81,7 @@ const loginMethods = [
  * QQ 登录回调
  */
 const qqLoginCallback = () => {
-  const params = extractParams(route.fullPath);
+  const params = extractParams();
   if (params?.code) {
     message.loading({ content: '登录中', key: params.code, duration: 10 });
     auth.qqLogin(params.code);
