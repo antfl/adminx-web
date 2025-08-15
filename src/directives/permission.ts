@@ -1,7 +1,7 @@
-import type { Directive, DirectiveBinding } from 'vue';
+import type { App, Directive, DirectiveBinding } from 'vue';
 import { usePermissionStore } from '@/store/modules/permission';
 
-const permission: Directive = {
+const permDirective: Directive = {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
     const { value } = binding;
     const permissionStore = usePermissionStore();
@@ -10,7 +10,6 @@ const permission: Directive = {
       const hasPermission = permissionStore.hasPermission(value[0]);
 
       if (!hasPermission) {
-        // 根据指令参数决定是隐藏还是禁用
         if (value[1] === 'disable') {
           el.classList.add('is-disabled');
           if (el.tagName === 'BUTTON') {
@@ -21,9 +20,15 @@ const permission: Directive = {
         }
       }
     } else {
-      throw new Error(`需要指定权限标识，如 v-permission="['user:add']"`);
+      throw new Error(`需要指定权限标识，如 v-perm="['user:add']"`);
     }
   },
 };
 
-export default permission;
+const permPlugin = {
+  install(app: App) {
+    app.directive('perm', permDirective);
+  },
+};
+
+export default permPlugin;

@@ -6,14 +6,10 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { RouterView } from 'vue-router';
 
-import { initDeviceFingerprint } from '@/utils/fingerprint';
 import { useThemeStore } from '@/store/modules/theme';
-import { useAppLoading } from '@/hooks/modules/useAppLoading';
 import { usePageTitle } from '@/hooks/modules/usePageTitle';
 
 usePageTitle();
-useAppLoading();
-initDeviceFingerprint();
 
 const { locale } = useI18n();
 const themeStore = useThemeStore();
