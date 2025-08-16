@@ -16,7 +16,9 @@ const pagination = reactive<TablePaginationConfig>({
 
 const formState = reactive({
   title: '',
+  createUserName: '',
 });
+
 const columns = [
   {
     title: '标题',
@@ -89,7 +91,7 @@ const getDataSource = async () => {
   const res = await articlePage({
     size: pagination.pageSize as number,
     current: pagination.current as number,
-    title: formState.title,
+    ...formState,
   });
   dataSource.value = res.data.records;
   pagination.total = res.data.total;
@@ -135,6 +137,9 @@ onMounted(() => {
         <a-form-item :label="t('文章标题')" name="title">
           <a-input :placeholder="t('请输入')" v-model:value="formState.title" />
         </a-form-item>
+        <a-form-item :label="t('创建人')" name="createUserName">
+          <a-input :placeholder="t('请输入')" v-model:value="formState.createUserName" />
+        </a-form-item>
         <a-form-item>
           <a-button @click="handleReset">
             <ReloadOutlined />
@@ -165,7 +170,7 @@ onMounted(() => {
         :scroll="{ x: 1600 }"
         :columns="columns"
       >
-        <template #bodyCell="{ text, column, record }">
+        <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
             <a-button type="link" @click="handleEdit(record)">{{ t('编辑') }}</a-button>
             <a-button type="link" @click="viewDetail(record)">{{ t('详情') }}</a-button>

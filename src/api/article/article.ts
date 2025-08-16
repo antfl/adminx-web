@@ -19,7 +19,7 @@ export interface Article {
   categoryName: string;
   nickname: string;
   avatar: string;
-  createUser: number;
+  createUser: number | string;
   likeCount: number;
   commentCount: number;
   favoriteCount: number;
