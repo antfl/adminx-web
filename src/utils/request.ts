@@ -232,7 +232,7 @@ class Request {
         errorMessage = '网关超时';
         break;
       default:
-        errorMessage = `连接错误 ${status}`;
+        errorMessage = `连接错误 ${status ?? ''}`;
     }
 
     // 显示错误消息

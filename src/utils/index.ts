@@ -18,17 +18,17 @@ export const getTimeGreeting = () => {
   const hour = new Date().getHours(); // 获取当前小时 (0-23)
 
   if (hour >= 0 && hour < 5) {
-    return '凌晨好，请注意休息！'; // 0:00 - 4:59
+    return '现在是凌晨，请注意休息！'; // 0:00 - 4:59
   } else if (hour >= 5 && hour < 8) {
-    return '早上好！'; // 5:00 - 7:59
+    return '早上好，'; // 5:00 - 7:59
   } else if (hour >= 8 && hour < 12) {
-    return '上午好！'; // 8:00 - 11:59
+    return '上午好，'; // 8:00 - 11:59
   } else if (hour >= 12 && hour < 14) {
-    return '中午好！'; // 12:00 - 13:59
+    return '中午好，'; // 12:00 - 13:59
   } else if (hour >= 14 && hour < 18) {
-    return '下午好！'; // 14:00 - 17:59
+    return '下午好，'; // 14:00 - 17:59
   } else {
-    return '晚上好！'; // 18:00 - 23:59
+    return '晚上好，'; // 18:00 - 23:59
   }
 };
 
@@ -38,5 +38,9 @@ export const getTimeGreeting = () => {
  */
 export const isQQAvatar = (url: string) => {
   if (url == null) return false;
-  return url.includes('/ek_qqapp/') || url.toLowerCase().includes('thirdqq.qlogo.cn');
+  return (
+    url.includes('/ek_qqapp/') ||
+    url.toLowerCase().includes('thirdqq.qlogo.cn') ||
+    url.toLowerCase().includes('githubusercontent')
+  );
 };

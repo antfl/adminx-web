@@ -1,12 +1,21 @@
 <script setup lang="ts">
+import { useRoute } from 'vue-router';
 import { message } from 'ant-design-vue';
+
 import router from '@/router';
 import { useAuth } from '@/hooks';
 import { captcha } from '@/api/user/auth';
 import qqIcon from '@/assets/images/qq.png';
 import wxIcon from '@/assets/images/wx.png';
 import githubIcon from '@/assets/images/github.png';
-import { extractParams, qqLoginURL } from '@/api/user/qq';
+import {
+  CallbackType,
+  GithubRedirectURL,
+  QQRedirectURL,
+  ThirdPartyProvider,
+} from '@/api/user/third-party';
+
+const route = useRoute();
 
 const checked = ref(false);
 const auth = useAuth();
@@ -61,35 +70,44 @@ const handleRegister = () => {
 
 const loginMethods = [
   {
-    icon: qqIcon,
-    name: '使用 QQ 登录',
-    href: qqLoginURL(),
+    provider: ThirdPartyProvider.GITHUB,
+    icon: githubIcon,
+    name: '使用 Github 登录',
+    href: GithubRedirectURL(CallbackType.LOGIN),
+    disabled: false,
   },
   {
+    provider: ThirdPartyProvider.QQ,
+    icon: qqIcon,
+    name: '使用 QQ 登录',
+    href: QQRedirectURL(CallbackType.LOGIN),
+    disabled: false,
+  },
+  {
+    provider: ThirdPartyProvider.WECHAT,
     icon: wxIcon,
     name: '使用微信登录',
     href: '',
-  },
-  {
-    icon: githubIcon,
-    name: '使用 Github 登录',
-    href: '',
+    disabled: true,
   },
 ];
 
 /**
- * QQ 登录回调
+ * 三方账号登录回调
  */
-const qqLoginCallback = () => {
-  const params = extractParams();
-  if (params?.code) {
-    message.loading({ content: '登录中', key: params.code, duration: 10 });
-    auth.qqLogin(params.code);
+const thirdPartyLoginCallback = () => {
+  const { code, provider } = route.query as { code: string; provider: string };
+  if (code && provider) {
+    message.loading({ content: '登录中', key: code, duration: 10 });
+    auth.thirdPartyLogin({
+      authCode: code,
+      provider: provider,
+    });
   }
 };
 
 onMounted(async () => {
-  qqLoginCallback();
+  thirdPartyLoginCallback();
   await refreshCode();
 });
 </script>
@@ -145,15 +163,18 @@ onMounted(async () => {
   </a-checkbox>
   <a-flex :gap="16" class="mt-34px" justify="center">
     <a
-      v-for="(item, index) in loginMethods"
+      v-for="item in loginMethods"
+      type="link"
       class="flex justify-center"
       :title="item.name"
       :aria-label="item.name"
       :data-tooltip="item.name"
       :href="item.href"
-      :style="`opacity: ${index === 0 ? 1 : 0.3}`"
+      :class="{
+        'opacity-20': item.disabled,
+      }"
     >
-      <img class="h-30px rd-3px" :src="item.icon" :alt="item.name" />
+      <img class="size-30px rd-3px" :src="item.icon" :alt="item.name" />
     </a>
   </a-flex>
 </template>

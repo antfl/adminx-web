@@ -1,7 +1,13 @@
 import { message } from 'ant-design-vue';
 import { useRoute, useRouter } from 'vue-router';
 
-import { qqUserLogin, userLogin, type UserLogin } from '@/api/user/auth';
+import {
+  qqUserLogin,
+  ThirdPartyLogin,
+  authThirdParty,
+  userLogin,
+  type UserLogin,
+} from '@/api/user/auth';
 import { t } from '@/i18n';
 import { useUserStore } from '@/store';
 
@@ -31,6 +37,29 @@ export const useAuth = () => {
     message.success({ content: t('登录成功'), key: code });
   };
 
+  /** 三方账号登录 */
+  const thirdPartyLogin = async (params: ThirdPartyLogin) => {
+    const res = await authThirdParty(params);
+    if (res.data.token) {
+      userStore.setToken(res.data.token);
+      await router.replace({
+        path: '/',
+      });
+      message.success({ content: t('登录成功'), key: params.authCode });
+      return;
+    }
+
+    message.loading({ content: '', key: params.authCode, duration: 0 });
+    if (res.data.openId) {
+      await router.push({
+        name: 'UserInfo',
+        query: {
+          openId: res.data.openId,
+        },
+      });
+    }
+  };
+
   /** 退出登录 */
   const signOut = async () => {
     userStore.logout();
@@ -43,6 +72,7 @@ export const useAuth = () => {
 
   return {
     qqLogin,
+    thirdPartyLogin,
     accountLogin,
     signOut,
   };

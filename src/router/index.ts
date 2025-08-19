@@ -3,6 +3,7 @@ import { usePermissionStore } from '@/store/modules/permission';
 import { useUserStore, useTabsStore } from '@/store';
 import { type RouteRaw } from '@/types/router';
 import { t } from '@/i18n';
+import { isBindGithub } from '@/api/user/third-party';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,7 +14,18 @@ const router = createRouter({
       component: () => import('@/views/profile/password-reset/index.vue'),
       meta: {
         hidden: true,
+        access: 'public',
         title: t('重置密码'),
+      },
+    },
+    {
+      path: '/user-info',
+      name: 'UserInfo',
+      component: () => import('@/views/profile/user-info/index.vue'),
+      meta: {
+        hidden: true,
+        access: 'public',
+        title: t('用户信息'),
       },
     },
     {
@@ -22,6 +34,7 @@ const router = createRouter({
       component: () => import('@/views/login/index.vue'),
       meta: {
         hidden: true,
+        access: 'public',
         title: t('🍃 登录 / 注册'),
       },
     },
@@ -46,7 +59,7 @@ router.beforeEach(async (to, _from, next) => {
   const permissionStore = usePermissionStore();
 
   if (!userStore.isAuthenticated) {
-    if (['Login', 'PasswordReset'].includes(to.name as string)) {
+    if (to.meta?.access === 'public') {
       return next();
     }
 
@@ -56,6 +69,18 @@ router.beforeEach(async (to, _from, next) => {
     }
 
     return next(location);
+  }
+
+  // 绑定 GitHub 账号登录
+  if (isBindGithub(to.fullPath)) {
+    const { code, provider } = to.query;
+    return next({
+      path: '/profile',
+      query: {
+        code,
+        provider,
+      },
+    });
   }
 
   if (to.name === 'Login') {

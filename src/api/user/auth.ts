@@ -17,8 +17,21 @@ export interface UserPasswordReset extends Omit<UserLogin, 'username'> {
   confirmPassword: string;
 }
 
+export interface UserCreate {
+  openId: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
+}
+
 export interface LoginResponse {
   token: string;
+  openId?: string;
+}
+
+export interface ThirdPartyLogin {
+  provider: string;
+  authCode: string;
 }
 
 /** 用户注册 */
@@ -36,9 +49,19 @@ export const qqUserLogin = (code: string): Promise<ResponseData<LoginResponse>> 
   return request.post<LoginResponse>('/auth/qq', { code }, { withToken: false });
 };
 
+/** 三方账号登录 */
+export const authThirdParty = (data: ThirdPartyLogin): Promise<ResponseData<LoginResponse>> => {
+  return request.post<LoginResponse>('/auth/third-party', data, { withToken: false });
+};
+
 /** 重置密码 */
 export const passwordReset = (data: UserPasswordReset) => {
   return request.post('/auth/passwordReset', data);
+};
+
+/** 创建用户 */
+export const createUser = (data: UserCreate) => {
+  return request.post('/auth/createUser', data);
 };
 
 /** 获取图片验证码 */
