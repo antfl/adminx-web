@@ -30,7 +30,9 @@ export const initDeviceFingerprint = async () => {
  */
 export const getFingerprint = (): string => {
   const stored = localStorage.getItem(SESSION_FINGERPRINT);
-  if (!stored) throw new Error('Device fingerprint not initialized');
+  if (!stored) {
+    return '';
+  }
 
   // 更新时间戳和签名
   const parsed = JSON.parse(stored);
