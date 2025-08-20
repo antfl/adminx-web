@@ -98,7 +98,6 @@ const loginMethods = [
 const thirdPartyLoginCallback = () => {
   const { code, provider } = route.query as { code: string; provider: string };
   if (code && provider) {
-    message.loading({ content: '登录中', key: code, duration: 10 });
     auth.thirdPartyLogin({
       authCode: code,
       provider: provider,

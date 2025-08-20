@@ -39,17 +39,19 @@ export const useAuth = () => {
 
   /** 三方账号登录 */
   const thirdPartyLogin = async (params: ThirdPartyLogin) => {
-    const res = await authThirdParty(params);
+    const destroy = message.loading({ content: '登录中', duration: 20 });
+    const res = await authThirdParty(params).finally(() => {
+      destroy();
+    });
     if (res.data.token) {
       userStore.setToken(res.data.token);
       await router.replace({
         path: '/',
       });
-      message.success({ content: t('登录成功'), key: params.authCode });
+      message.success({ content: t('登录成功') });
       return;
     }
 
-    message.loading({ content: '', key: params.authCode, duration: 0 });
     if (res.data.openId) {
       await router.push({
         name: 'UserInfo',

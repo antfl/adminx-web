@@ -114,7 +114,7 @@ const getBindList = async () => {
 const thirdPartyBindCallback = async () => {
   const { code, provider } = route.query as { code: string; provider: string };
   if (code && provider) {
-    const destroy = message.loading({ content: '绑定中', key: code, duration: 10 });
+    const destroy = message.loading({ content: '绑定中', key: code, duration: 20 });
     await bind({
       provider: provider,
       authCode: code,
