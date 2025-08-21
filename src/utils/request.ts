@@ -316,8 +316,9 @@ class Request {
    * 处理禁止访问错误 (403)
    */
   private async handleForbiddenError(data?: ResponseData): Promise<never> {
+    const auth = useAuth();
+    await auth.signOut();
     message.error(data?.message || '没有权限访问此资源');
-
     return Promise.reject({
       code: 403,
       message: data?.message || '禁止访问',
