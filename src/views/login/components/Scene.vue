@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import sun from '@/assets/svg/sun.svg';
 import moon from '@/assets/svg/little-moon.svg';
-import tree from '@/assets/svg/tree.svg';
 import crab from '@/assets/svg/crab.svg';
 import { useThemeStore } from '@/store/modules/theme';
 
@@ -16,11 +15,6 @@ const currentEnv = computed(() => (themeStore.currentTheme === 'dark' ? moon : s
     :src="currentEnv"
     alt=""
   />
-  <img
-    class="tree-filter-icon hidden lg:flex pos-absolute left-50px bottom-0px h-117px"
-    :src="tree"
-    alt=""
-  />
   <div class="crab-container pos-absolute right-100px bottom-0">
     <img class="crab crab-filter-icon size-30px" :src="crab" alt="" />
   </div>
@@ -28,7 +22,6 @@ const currentEnv = computed(() => (themeStore.currentTheme === 'dark' ? moon : s
 
 <style scoped lang="less">
 .crab-filter-icon,
-.tree-filter-icon,
 .moon-filter-icon {
   transition: filter 300ms;
   will-change: filter;
@@ -42,10 +35,6 @@ const currentEnv = computed(() => (themeStore.currentTheme === 'dark' ? moon : s
 
 .crab-filter-icon {
   filter: drop-shadow(0 0 1em #ef7d7d);
-}
-
-.tree-filter-icon {
-  filter: drop-shadow(0 0 1em #a1dc5a);
 }
 
 @keyframes rotate {

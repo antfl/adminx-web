@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import SnowEffect from '@/components/SnowEffect/index.vue';
 import LoginForm from '@/views/login/components/LoginForm.vue';
 import RegisterForm from '@/views/login/components/RegisterForm.vue';
 import ThemeLocaleSwitcher from '@/views/login/components/ThemeLocaleSwitcher.vue';
@@ -13,7 +12,6 @@ const toggleChange = () => {
 </script>
 
 <template>
-  <SnowEffect />
   <div class="login-container select-none w-screen h-screen pos-absolute">
     <div class="h-full flex items-center justify-center">
       <a-card
