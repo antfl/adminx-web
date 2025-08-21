@@ -5,6 +5,7 @@ import zhCN from 'ant-design-vue/es/locale/zh_CN';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { RouterView } from 'vue-router';
+import Watermark from '@/components/Watermark/index.vue';
 
 import { useThemeStore } from '@/store/modules/theme';
 import { usePageTitle } from '@/hooks/modules/usePageTitle';
@@ -19,7 +20,9 @@ const antLocale = computed(() => (locale.value === 'zh-CN' ? zhCN : enUS));
 </script>
 
 <template>
-  <a-config-provider :theme="themeConfig" :locale="antLocale">
-    <RouterView />
-  </a-config-provider>
+  <Watermark>
+    <a-config-provider :theme="themeConfig" :locale="antLocale">
+      <RouterView />
+    </a-config-provider>
+  </Watermark>
 </template>
