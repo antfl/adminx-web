@@ -19,8 +19,8 @@ const router = createRouter({
       },
     },
     {
-      path: '/user-info',
-      name: 'UserInfo',
+      path: '/create-account',
+      name: 'CreateAccount',
       component: () => import('@/views/profile/user-info/index.vue'),
       meta: {
         hidden: true,

@@ -14,7 +14,6 @@ const watermark = computed(() => {
 
 <template>
   <a-watermark
-    v-if="userStore.isAuthenticated"
     :content="watermark"
     :gap="[60, 60]"
     :font="{
@@ -24,5 +23,4 @@ const watermark = computed(() => {
   >
     <slot />
   </a-watermark>
-  <slot v-else />
 </template>

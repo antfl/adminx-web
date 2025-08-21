@@ -44,11 +44,6 @@ export const userLogin = (data: UserLogin): Promise<ResponseData<LoginResponse>>
   return request.post<LoginResponse>('/auth/login', data, { withToken: false });
 };
 
-/** QQ 登录 */
-export const qqUserLogin = (code: string): Promise<ResponseData<LoginResponse>> => {
-  return request.post<LoginResponse>('/auth/qq', { code }, { withToken: false });
-};
-
 /** 三方账号登录 */
 export const authThirdParty = (data: ThirdPartyLogin): Promise<ResponseData<LoginResponse>> => {
   return request.post<LoginResponse>('/auth/third-party', data, { withToken: false });

@@ -301,9 +301,10 @@ class Request {
    * 处理未授权错误 (401)
    */
   private async handleUnauthorizedError(data?: ResponseData): Promise<never> {
-    const auth = useAuth();
+    message.error(data?.message || '登录已过期，请重新登录');
 
     // 退出登录
+    const auth = useAuth();
     await auth.signOut();
     return Promise.reject({
       code: 401,
@@ -316,12 +317,14 @@ class Request {
    * 处理禁止访问错误 (403)
    */
   private async handleForbiddenError(data?: ResponseData): Promise<never> {
+    message.error(data?.message || '没有权限访问');
+
+    // 退出登录
     const auth = useAuth();
     await auth.signOut();
-    message.error(data?.message || '没有权限访问此资源');
     return Promise.reject({
       code: 403,
-      message: data?.message || '禁止访问',
+      message: data?.message || '没有权限访问',
       data: null,
     });
   }
@@ -330,7 +333,7 @@ class Request {
    * 处理服务器错误 (500)
    */
   private async handleServerError(data: ResponseData): Promise<never> {
-    message.error(data.message || '服务器内部错误');
+    message.error(data.message || '服务器错误');
 
     return Promise.reject({
       code: 500,

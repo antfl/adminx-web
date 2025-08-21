@@ -3,7 +3,6 @@ import { usePermissionStore } from '@/store/modules/permission';
 
 import { fetchPermissions, User } from '@/api/user';
 import { userInfo } from '@/api/user';
-import { useRoute, useRouter } from 'vue-router';
 
 export const useUserStore = defineStore('user', () => {
   const token = ref<string | null>(localStorage.getItem('token'));
@@ -13,23 +12,15 @@ export const useUserStore = defineStore('user', () => {
   const isAuthenticated = computed(() => !!token.value);
 
   /**
-   * 退出登录
+   * 清空用户信息
    */
-  const logout = () => {
-    const route = useRoute();
-    const router = useRouter();
-
+  const clear = () => {
     const permissionStore = usePermissionStore();
     permissionStore.clearPermissions();
     permissionStore.setRoutesAdded(false);
     token.value = null;
     user.value = null;
     localStorage.removeItem('token');
-    const location = { name: 'Login', query: {} };
-    if (route.fullPath && route.fullPath !== '/') {
-      location.query = { redirect: route.fullPath };
-    }
-    router.push(location).finally();
   };
 
   /**
@@ -52,7 +43,7 @@ export const useUserStore = defineStore('user', () => {
       user.value = res.data;
       return true;
     } catch {
-      logout();
+      clear();
       return false;
     } finally {
       loading.value = false;
@@ -73,7 +64,7 @@ export const useUserStore = defineStore('user', () => {
     token,
     isAuthenticated,
     setToken,
-    logout,
+    clear,
     getUserInfo,
     getPermissions,
   };

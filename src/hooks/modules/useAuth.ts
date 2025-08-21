@@ -1,13 +1,7 @@
 import { message } from 'ant-design-vue';
 import { useRoute, useRouter } from 'vue-router';
 
-import {
-  qqUserLogin,
-  ThirdPartyLogin,
-  authThirdParty,
-  userLogin,
-  type UserLogin,
-} from '@/api/user/auth';
+import { ThirdPartyLogin, authThirdParty, userLogin, type UserLogin } from '@/api/user/auth';
 import { t } from '@/i18n';
 import { useUserStore } from '@/store';
 
@@ -27,16 +21,6 @@ export const useAuth = () => {
     message.success(t('登录成功'));
   };
 
-  /** QQ 登录 */
-  const qqLogin = async (code: string) => {
-    const res = await qqUserLogin(code);
-    userStore.setToken(res.data.token);
-    await router.replace({
-      path: '/',
-    });
-    message.success({ content: t('登录成功'), key: code });
-  };
-
   /** 三方账号登录 */
   const thirdPartyLogin = async (params: ThirdPartyLogin) => {
     const destroy = message.loading({ content: '登录中', duration: 20 });
@@ -52,9 +36,10 @@ export const useAuth = () => {
       return;
     }
 
+    // 使用三方账号登录没用账号时，必须创建账号
     if (res.data.openId) {
       await router.push({
-        name: 'UserInfo',
+        name: 'CreateAccount',
         query: {
           openId: res.data.openId,
         },
@@ -64,11 +49,15 @@ export const useAuth = () => {
 
   /** 退出登录 */
   const signOut = async () => {
-    userStore.logout();
+    userStore.clear();
+    const location = { name: 'Login', query: {} };
+    if (route?.fullPath && route?.fullPath !== '/') {
+      location.query = { redirect: route.fullPath };
+    }
+    await router.push(location);
   };
 
   return {
-    qqLogin,
     thirdPartyLogin,
     accountLogin,
     signOut,
