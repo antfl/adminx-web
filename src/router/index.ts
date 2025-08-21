@@ -21,7 +21,7 @@ const router = createRouter({
     {
       path: '/create-account',
       name: 'CreateAccount',
-      component: () => import('@/views/profile/user-info/index.vue'),
+      component: () => import('@/views/profile/create-account/index.vue'),
       meta: {
         hidden: true,
         access: 'public',
