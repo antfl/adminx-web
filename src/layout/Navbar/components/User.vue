@@ -12,8 +12,8 @@ const avatar = computed(() => userStore.user?.avatar);
 const nickname = computed(() => userStore.user?.nickname);
 const router = useRouter();
 const handleClick = ({ key }: { key: string | number }) => {
-  if (key === 'signOut') {
-    auth.signOut();
+  if (key === 'logout') {
+    auth.logout();
   }
 
   if (key === 'Profile') {
@@ -32,7 +32,7 @@ const handleClick = ({ key }: { key: string | number }) => {
       <template #overlay>
         <a-menu @click="handleClick">
           <a-menu-item key="Profile">{{ t('个人中心') }}</a-menu-item>
-          <a-menu-item key="signOut">{{ t('退出') }}</a-menu-item>
+          <a-menu-item key="logout">{{ t('退出') }}</a-menu-item>
         </a-menu>
       </template>
     </a-dropdown>

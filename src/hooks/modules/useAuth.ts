@@ -1,13 +1,12 @@
 import { message } from 'ant-design-vue';
-import { useRoute, useRouter } from 'vue-router';
+import router from '@/router';
 
 import { ThirdPartyLogin, authThirdParty, userLogin, type UserLogin } from '@/api/user/auth';
 import { t } from '@/i18n';
 import { useUserStore } from '@/store';
 
 export const useAuth = () => {
-  const route = useRoute();
-  const router = useRouter();
+  const route = router.currentRoute.value;
   const userStore = useUserStore();
 
   /** 账号登录 */
@@ -48,7 +47,7 @@ export const useAuth = () => {
   };
 
   /** 退出登录 */
-  const signOut = async () => {
+  const logout = async () => {
     userStore.clear();
     const location = { name: 'Login', query: {} };
     if (route?.fullPath && route?.fullPath !== '/') {
@@ -60,6 +59,6 @@ export const useAuth = () => {
   return {
     thirdPartyLogin,
     accountLogin,
-    signOut,
+    logout,
   };
 };

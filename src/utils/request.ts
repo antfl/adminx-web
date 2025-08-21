@@ -305,7 +305,7 @@ class Request {
 
     // 退出登录
     const auth = useAuth();
-    await auth.signOut();
+    await auth.logout();
     return Promise.reject({
       code: 401,
       message: data?.message || '登录已过期，请重新登录',
@@ -321,7 +321,7 @@ class Request {
 
     // 退出登录
     const auth = useAuth();
-    await auth.signOut();
+    await auth.logout();
     return Promise.reject({
       code: 403,
       message: data?.message || '没有权限访问',
