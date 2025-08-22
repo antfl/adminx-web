@@ -28,7 +28,7 @@ const getDataSource = async () => {
 
 const columns = [
   {
-    width: 90,
+    width: 60,
     title: '序号',
     customRender: ({ index }: { index: number }) => index + 1,
   },
@@ -62,12 +62,12 @@ const columns = [
     title: '耗时',
     dataIndex: 'duration',
     key: 'duration',
-    customRender: ({ text }: { text: string }) => `${text}ms`,
   },
   {
     title: '操作时间',
     dataIndex: 'operationTime',
     key: 'operationTime',
+    width: 150,
   },
   {
     title: '操作',
@@ -128,7 +128,12 @@ onMounted(async () => {
         :scroll="{ x: 1200 }"
         @change="handleTableChange"
       >
-        <template #bodyCell="{ column }">
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'duration'">
+            <a-tag :bordered="false" :color="record.duration > 300 ? 'magenta' : 'processing'"
+              >{{ record.duration }}ms</a-tag
+            >
+          </template>
           <template v-if="column.key === 'action'">
             <a-button type="link">{{ t('查看') }}</a-button>
           </template>

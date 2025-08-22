@@ -54,7 +54,7 @@ const onClickOutside = () => {
   >
     <div class="mb-8px">
       <a-textarea
-        :rows="3"
+        :rows="5"
         show-count
         :maxlength="2000"
         class="rd-5px"
@@ -64,7 +64,7 @@ const onClickOutside = () => {
       >
       </a-textarea>
     </div>
-    <div class="flex justify-between">
+    <div class="flex items-center justify-between">
       <div>
         <a-popover @openChange="openChange" placement="bottomLeft" trigger="click">
           <template #content>

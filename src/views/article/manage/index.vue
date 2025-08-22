@@ -21,48 +21,37 @@ const formState = reactive({
 
 const columns = [
   {
+    width: 200,
     title: '标题',
     dataIndex: 'title',
     key: 'title',
   },
   {
-    width: 200,
+    width: 100,
     title: '分类',
     dataIndex: 'categoryName',
     key: 'categoryName',
   },
   {
-    width: 100,
-    title: '点赞数量',
-    dataIndex: 'likeCount',
-    key: 'likeCount',
-  },
-  {
-    width: 100,
-    title: '收藏数量',
-    dataIndex: 'favoriteCount',
-    key: 'favoriteCount',
-  },
-  {
-    width: 100,
-    title: '评论数量',
-    dataIndex: 'commentCount',
-    key: 'commentCount',
-  },
-  {
     width: 150,
+    title: '统计',
+    dataIndex: 'statistics',
+    key: 'statistics',
+  },
+  {
+    width: 120,
     title: '创建人',
     dataIndex: 'createUserName',
     key: 'createUserName',
   },
   {
-    width: 150,
+    width: 120,
     title: '创建时间',
     dataIndex: 'createTime',
     key: 'createTime',
   },
   {
-    width: 150,
+    width: 120,
     title: '更新时间',
     dataIndex: 'updateTime',
     key: 'updateTime',
@@ -167,10 +156,24 @@ onMounted(() => {
         rowKey="id"
         :data-source="dataSource"
         bordered
-        :scroll="{ x: 1600 }"
+        :scroll="{ x: 1200 }"
         :columns="columns"
       >
         <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'statistics'">
+            <a-tag :bordered="false" class="text-center">
+              <div>点赞</div>
+              <div>{{ record.likeCount }}</div>
+            </a-tag>
+            <a-tag :bordered="false" class="text-center">
+              <div>收藏</div>
+              <div>{{ record.favoriteCount }}</div>
+            </a-tag>
+            <a-tag :bordered="false" class="text-center">
+              <div>评论</div>
+              <div>{{ record.commentCount }}</div>
+            </a-tag>
+          </template>
           <template v-if="column.key === 'action'">
             <a-button type="link" @click="handleEdit(record)">{{ t('编辑') }}</a-button>
             <a-button type="link" @click="viewDetail(record)">{{ t('详情') }}</a-button>

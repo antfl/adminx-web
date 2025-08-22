@@ -26,6 +26,7 @@ const columns = [
     key: 'categoryName',
   },
   {
+    width: 200,
     title: '备注',
     dataIndex: 'remark',
     key: 'remark',

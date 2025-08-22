@@ -22,7 +22,7 @@ const formState = reactive({
 
 const columns = [
   {
-    width: 50,
+    width: 60,
     title: '序号',
     customRender: ({ index }: { index: number }) => index + 1,
   },
