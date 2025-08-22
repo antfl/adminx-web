@@ -33,7 +33,7 @@ const columns = [
     key: 'categoryName',
   },
   {
-    width: 150,
+    width: 170,
     title: '统计',
     dataIndex: 'statistics',
     key: 'statistics',
@@ -161,18 +161,20 @@ onMounted(() => {
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'statistics'">
-            <a-tag :bordered="false" class="text-center">
-              <div>点赞</div>
-              <div>{{ record.likeCount }}</div>
-            </a-tag>
-            <a-tag :bordered="false" class="text-center">
-              <div>收藏</div>
-              <div>{{ record.favoriteCount }}</div>
-            </a-tag>
-            <a-tag :bordered="false" class="text-center">
-              <div>评论</div>
-              <div>{{ record.commentCount }}</div>
-            </a-tag>
+            <div class="text-center">
+              <a-tag :bordered="false" class="text-center bg-transparent">
+                <div class="color-[var(--color-primary)]">{{ record.likeCount }}</div>
+                <div class="color-[var(--color-text-secondary)]">点赞</div>
+              </a-tag>
+              <a-tag :bordered="false" class="text-center bg-transparent">
+                <div class="color-[var(--color-primary)]">{{ record.favoriteCount }}</div>
+                <div class="color-[var(--color-text-secondary)]">收藏</div>
+              </a-tag>
+              <a-tag :bordered="false" class="text-center bg-transparent">
+                <div class="color-[var(--color-primary)]">{{ record.commentCount }}</div>
+                <div class="color-[var(--color-text-secondary)]">评论</div>
+              </a-tag>
+            </div>
           </template>
           <template v-if="column.key === 'action'">
             <a-button type="link" @click="handleEdit(record)">{{ t('编辑') }}</a-button>
