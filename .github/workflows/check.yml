@@ -42,5 +42,7 @@ jobs:
 
       - run: pnpm install
 
+      - name: Generate type declarations
+        run: pnpm run build:types
       - name: Type check
         run: pnpm run type:check

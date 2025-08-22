@@ -4,7 +4,7 @@
 
 # 演示地址
 
-https://www.byteout.cn
+https://byteout.cn
 
 ![dashboard.png](docs/dashboard.png)
 
