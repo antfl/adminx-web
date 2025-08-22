@@ -42,5 +42,8 @@ jobs:
 
       - run: pnpm install
 
+      - name: Generate auto-import types
+        run: pnpm exec vue-tsc --noEmit --declaration
+
       - name: Type check
         run: pnpm run type:check

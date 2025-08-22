@@ -1,3 +1,5 @@
+import type { Component } from 'vue';
+
 const svgIcons = import.meta.glob('@/assets/svg/*.svg', { as: 'url', eager: true });
 
 export interface IconData {
