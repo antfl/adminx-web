@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { SearchOutlined, ReloadOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import { message, TablePaginationConfig } from 'ant-design-vue';
-
+import { TableColumnProps } from 'ant-design-vue';
 import { Article, articlePage, delArticle } from '@/api/article/article';
 import ConfirmButton from '@/components/ConfirmButton/index.vue';
 import { t } from '@/i18n';
@@ -19,7 +19,7 @@ const formState = reactive({
   createUserName: '',
 });
 
-const columns = [
+const columns: TableColumnProps[] = [
   {
     width: 200,
     title: '标题',
@@ -177,8 +177,8 @@ onMounted(() => {
             </div>
           </template>
           <template v-if="column.key === 'action'">
-            <a-button type="link" @click="handleEdit(record)">{{ t('编辑') }}</a-button>
-            <a-button type="link" @click="viewDetail(record)">{{ t('详情') }}</a-button>
+            <a-button type="link" @click="handleEdit(record as Article)">{{ t('编辑') }}</a-button>
+            <a-button type="link" @click="viewDetail(record as Article)">{{ t('详情') }}</a-button>
             <ConfirmButton
               @confirm="handleDel(record.articleId)"
               :name="t('删除')"

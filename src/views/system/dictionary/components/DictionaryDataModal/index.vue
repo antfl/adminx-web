@@ -34,8 +34,8 @@ const isLoading = ref(false);
 const getDataSource = async () => {
   isLoading.value = true;
   const res = await dictDataPage({
-    pageSize: pagination.pageSize as number,
-    pageNum: pagination.current as number,
+    size: pagination.pageSize as number,
+    current: pagination.current as number,
     itemLabel: formData.value.itemLabel,
     dictId: rowData.id,
   });
@@ -164,7 +164,7 @@ defineExpose({
           </a-tag>
         </template>
         <template v-if="column.key === 'action'">
-          <a-button @click="editDictData(record)" type="link">{{ t('编辑') }}</a-button>
+          <a-button @click="editDictData(record as DictItem)" type="link">{{ t('编辑') }}</a-button>
           <ConfirmButton
             @confirm="delDictData(record.id)"
             :name="t('删除')"

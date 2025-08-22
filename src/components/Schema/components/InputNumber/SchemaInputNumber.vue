@@ -40,8 +40,5 @@ defineExpose({
     <template #prefix v-if="props?.itemProps?.prefixSlot">
       <slot :name="props.itemProps.prefixSlot"></slot>
     </template>
-    <template #suffix v-if="props?.itemProps?.suffixSlot">
-      <slot :name="props.itemProps.suffixSlot"></slot>
-    </template>
   </a-input-number>
 </template>

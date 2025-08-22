@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { message } from 'ant-design-vue';
 
-import { Menu, saveMenu } from '@/api/system/menu';
+import { saveMenu } from '@/api/system/menu';
 import { useComponentScanner } from '@/hooks';
 import { t } from '@/i18n';
+import { Menu } from '@/types/meun';
 
 const { components } = useComponentScanner();
 
@@ -79,7 +80,7 @@ defineExpose({
         </a-radio-group>
       </a-form-item>
       <a-form-item :label="t('页面配置')">
-        <a-checkbox v-model:value="formData.visible">{{ t('隐藏') }}</a-checkbox>
+        <a-checkbox v-model:value="formData.hidden">{{ t('隐藏') }}</a-checkbox>
         <a-checkbox v-model:value="formData.cache">{{ t('缓存') }}</a-checkbox>
       </a-form-item>
     </a-form>

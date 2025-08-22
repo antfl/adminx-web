@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { SearchOutlined, ReloadOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import { message, TablePaginationConfig } from 'ant-design-vue';
-
+import { TableColumnProps } from 'ant-design-vue';
 import { ArticleCategory, articleCategoryPage, delArticleCategory } from '@/api/article/article';
 import ConfirmButton from '@/components/ConfirmButton/index.vue';
 import { t } from '@/i18n';
@@ -18,7 +18,7 @@ const pagination = reactive<TablePaginationConfig>({
 const formState = reactive({
   categoryName: '',
 });
-const columns = [
+const columns: TableColumnProps[] = [
   {
     width: 200,
     title: '名称',
@@ -156,7 +156,9 @@ onMounted(() => {
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
-            <a-button type="link" @click="handleEdit(record)">{{ t('编辑') }}</a-button>
+            <a-button type="link" @click="handleEdit(record as ArticleCategory)">{{
+              t('编辑')
+            }}</a-button>
             <ConfirmButton
               @confirm="handleDel(record.categoryId)"
               :name="t('删除')"

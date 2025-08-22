@@ -3,6 +3,7 @@ import { message } from 'ant-design-vue';
 
 import { Role, rolePermissions, setRoleMenus } from '@/api/system/role';
 import { t } from '@/i18n';
+import { Menu } from '@/types/meun';
 
 const formRef = ref();
 const visible = ref(false);

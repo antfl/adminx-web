@@ -2,11 +2,12 @@
 import { OPTION_LABEL_KEY, OPTION_VALUE_KEY } from '@/components/Schema/constants';
 import { useFormOptions } from '@/components/Schema/hooks/useFormOptions';
 import type { FormItemProps } from '@/components/Schema/types';
+import type { SelectProps } from 'ant-design-vue';
 
 defineOptions({ name: 'SchemaSelect' });
 
 interface Props extends FormItemProps {
-  value?: string | number | boolean;
+  value?: SelectProps['value'];
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -25,7 +26,7 @@ const emit = defineEmits<{
   (e: 'field-change', payload: { name: string; value: any }): void;
 }>();
 
-const handleChange = (value: any) => {
+const handleChange = (value: SelectProps['value']) => {
   emit('field-change', { name: props.name, value });
 };
 
@@ -48,24 +49,6 @@ defineExpose({
     <template v-else>{{ viewValue }}</template>
   </template>
   <a-select v-bind="attrs" v-else :loading="isLoading" @change="handleChange" :value="value">
-    <template #header v-if="props?.itemProps?.headerSlot">
-      <slot :name="props.itemProps.headerSlot"></slot>
-    </template>
-    <template #footer v-if="props?.itemProps?.footerSlot">
-      <slot :name="props.itemProps.footerSlot"></slot>
-    </template>
-    <template #prefix v-if="props?.itemProps?.prefixSlot">
-      <slot :name="props.itemProps.prefixSlot"></slot>
-    </template>
-    <template #empty v-if="props?.itemProps?.emptySlot">
-      <slot :name="props.itemProps.emptySlot"></slot>
-    </template>
-    <template #loading v-if="props?.itemProps?.loadingSlot">
-      <slot :name="props.itemProps.loadingSlot"></slot>
-    </template>
-    <template #label v-if="props?.itemProps?.labelSlot">
-      <slot :name="props.itemProps.labelSlot"></slot>
-    </template>
     <a-select-option
       v-for="item in options"
       :key="item[valueKey]"

@@ -6,6 +6,7 @@ import { usePermissionStore } from '@/store/modules/permission';
 import { useSystemStore } from '@/store/modules/systemStore';
 import { useTabsStore } from '@/store/modules/tabsStore';
 import { cloneDeep } from 'lodash-es';
+import type { MenuProps } from 'ant-design-vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -24,7 +25,7 @@ interface CustomMenuItem {
 }
 
 const routeMap = ref<Map<string, any>>(new Map());
-const openKeys = ref<string[]>([]);
+const openKeys = ref<MenuProps['openKeys']>([]);
 
 const handleMenuClick = ({ key }: { key: string | number }) => {
   const path = key as string;
@@ -124,7 +125,7 @@ onMounted(() => {
   updateOpenKeys();
 });
 
-const handleOpenChange = (keys: string[]) => {
+const handleOpenChange = (keys: MenuProps['openKeys']) => {
   openKeys.value = keys;
 };
 </script>

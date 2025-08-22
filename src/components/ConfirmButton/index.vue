@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { t } from '@/i18n';
+import type { PopconfirmProps } from 'ant-design-vue';
 
 const attrs = useAttrs();
 withDefaults(
   defineProps<{
     name?: string;
     title: string;
-    placement?: string;
+    placement?: PopconfirmProps['placement'];
     cancelText?: string;
     okText?: string;
   }>(),

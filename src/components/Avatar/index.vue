@@ -3,12 +3,13 @@ import { avatarList } from '@/assets/avatar/icons';
 import { viewFile, getFileToken } from '@/api/system/file';
 import BOY_AVATAR_A from '@/assets/avatar/BOY_AVATAR_A.svg';
 import { isQQAvatar } from '@/utils';
+import type { AvatarProps } from 'ant-design-vue';
 
 const props = withDefaults(
   defineProps<{
-    shape?: 'circle' | 'square';
+    shape?: AvatarProps['shape'];
+    size?: AvatarProps['size'];
     name?: string;
-    size?: number | string;
     src?: string;
   }>(),
   {

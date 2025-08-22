@@ -20,7 +20,7 @@ const route = useRoute();
 
 const { copy } = useClipboard();
 
-const articleData = ref<Article | null>(null);
+const articleData = ref<Article>({} as Article);
 const isLoading = ref(false);
 const handleInteraction = async (type: InteractionType) => {
   const res = await toggleInteraction({
@@ -147,7 +147,7 @@ const setButtonProps = (active: boolean | undefined) => {
       <h1 class="mb-16px font-size-20px">{{ articleData?.title }}</h1>
       <a-badge-ribbon :text="articleData?.categoryName">
         <a-card :loading="isLoading">
-          <MarkdownViewer :content="articleData?.content" />
+          <MarkdownViewer :content="articleData.content" />
         </a-card>
       </a-badge-ribbon>
       <div ref="targetElementRef">

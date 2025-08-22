@@ -22,6 +22,8 @@ import {
 import { t } from '@/i18n';
 import Avatar from '@/components/Avatar/index.vue';
 
+import type { TabsProps } from 'ant-design-vue';
+
 const route = useRoute();
 
 const activeKey = ref('profile');
@@ -133,7 +135,7 @@ onMounted(async () => {
   await thirdPartyBindCallback();
 });
 
-const handleChange = (key: string) => {
+const handleChange = (key: TabsProps['activeKey']) => {
   if (key === 'account') {
     getBindList();
   }

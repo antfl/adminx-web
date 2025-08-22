@@ -168,8 +168,10 @@ onMounted(() => {
             </a-tag>
           </template>
           <template v-if="column.key === 'action'">
-            <a-button type="link" @click="editDictionary(record)">{{ t('编辑') }}</a-button>
-            <a-button type="link" @click="viewDictionaryData(record)">{{ t('数据') }}</a-button>
+            <a-button type="link" @click="editDictionary(record as Dict)">{{ t('编辑') }}</a-button>
+            <a-button type="link" @click="viewDictionaryData(record as Dict)">{{
+              t('数据')
+            }}</a-button>
             <ConfirmButton
               @confirm="delDict(record.id)"
               :name="t('删除')"

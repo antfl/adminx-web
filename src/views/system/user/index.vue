@@ -198,7 +198,7 @@ onMounted(() => {
             </a-tag>
           </template>
           <template v-if="column.key === 'action'">
-            <a-button type="link" @click="handleEdit(record)">编辑</a-button>
+            <a-button type="link" @click="handleEdit(record as User)">编辑</a-button>
             <a-button danger type="link" @click="handleDel(index)">删除</a-button>
           </template>
         </template>

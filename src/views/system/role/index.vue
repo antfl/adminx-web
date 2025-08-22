@@ -110,7 +110,7 @@ onMounted(async () => {
             </a-tag>
           </template>
           <template v-if="column.key === 'action'">
-            <a-button @click="handleEdit(record)" type="link">{{ t('编辑') }}</a-button>
+            <a-button @click="handleEdit(record as Role)" type="link">{{ t('编辑') }}</a-button>
             <a-button danger type="link">{{ t('删除') }}</a-button>
           </template>
         </template>
