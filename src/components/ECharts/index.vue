@@ -50,6 +50,7 @@ const resize = () => {
 defineExpose({
   updateChart,
   resize,
+  getInstance: () => chartInstance,
 });
 
 onMounted(() => {

@@ -1,6 +1,11 @@
 import { getLessVar } from '@/utils';
 
 export const createPie = ({ data = [], name = '' }: { data: any[]; name: string }) => {
+  const selectedItems: Record<string, boolean> = {};
+  data.forEach((item, index) => {
+    selectedItems[item.name] = index < 5;
+  });
+
   return {
     backgroundColor: getLessVar('--color-bg-container'),
     tooltip: {
@@ -24,6 +29,7 @@ export const createPie = ({ data = [], name = '' }: { data: any[]; name: string 
       itemHeight: 14,
       pageIconColor: '#888',
       pageTextStyle: { color: '#444' },
+      selected: selectedItems,
     },
     graphic: {
       type: 'text',
@@ -39,7 +45,6 @@ export const createPie = ({ data = [], name = '' }: { data: any[]; name: string 
     },
     series: [
       {
-        name: '数据分布',
         type: 'pie',
         radius: ['35%', '60%'],
         center: ['40%', '50%'],
@@ -96,4 +101,29 @@ export const createPie = ({ data = [], name = '' }: { data: any[]; name: string 
       },
     ],
   };
+};
+
+/**
+ * 添加图例选择变化事件处理
+ */
+export const handleLegendSelectChanged = (chart: any) => {
+  chart?.on('legendSelectChanged', (params: any) => {
+    const selected = chart.getOption().legend[0].selected;
+    const selectedCount = Object.values(selected).filter(Boolean).length;
+
+    if (selectedCount > 5) {
+      const keys = Object.keys(selected);
+      for (let i = 0; i < keys.length; i++) {
+        if (keys[i] !== params.name && selected[keys[i]]) {
+          selected[keys[i]] = false;
+          break;
+        }
+      }
+      chart.setOption({
+        legend: {
+          selected: selected,
+        },
+      });
+    }
+  });
 };

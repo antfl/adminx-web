@@ -141,6 +141,9 @@ export const createOption = (source: any[]) => {
       textStyle: {
         color: getLessVar('--color-text-secondary'),
       },
+      selected: {
+        ['失败操作量']: false,
+      },
     },
   };
 };

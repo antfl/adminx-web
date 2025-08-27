@@ -2,7 +2,7 @@
 import ECharts from '@/components/ECharts/index.vue';
 
 import { moduleStats } from '@/api/system/logs';
-import { createPie } from '@/components/ECharts/utils';
+import { createPie, handleLegendSelectChanged } from '@/components/ECharts/utils';
 import { useThemeStore } from '@/store/modules/theme';
 
 const { themeChange } = useThemeStore();
@@ -20,6 +20,7 @@ const getModuleStats = async () => {
   const res = await moduleStats();
   option.value = res.data;
   EChartsRef.value.updateChart(createPie({ data: option.value, name: '模块统计' }));
+  handleLegendSelectChanged(EChartsRef.value.getInstance());
   isLoading.value = false;
 };
 
