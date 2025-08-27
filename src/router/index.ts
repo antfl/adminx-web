@@ -35,7 +35,7 @@ const router = createRouter({
       meta: {
         hidden: true,
         access: 'public',
-        title: t('🍃 登录 / 注册'),
+        title: t('Admin x - 一个全场景企业级后台管理模板'),
       },
     },
   ],
