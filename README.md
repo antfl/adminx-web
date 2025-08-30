@@ -6,6 +6,8 @@
 
 https://byteout.cn
 
+> 点击链接加入群聊【Admin x 大暑版】：https://qm.qq.com/q/KCSI9GMiE8
+
 ![dashboard.png](docs/dashboard.png)
 
 #### 软件架构
