@@ -2,7 +2,7 @@
 import { avatarList } from '@/assets/avatar/icons';
 import { viewFile, getFileToken } from '@/api/system/file';
 import BOY_AVATAR_A from '@/assets/avatar/BOY_AVATAR_A.svg';
-import { isQQAvatar } from '@/utils';
+import { isThirdAvatar } from '@/utils';
 import type { AvatarProps } from 'ant-design-vue';
 
 const props = withDefaults(
@@ -28,7 +28,7 @@ const setAvatar = async (val: string) => {
     if (data) {
       return data.src;
     }
-    if (isQQAvatar(val)) {
+    if (isThirdAvatar(val)) {
       return props.src;
     }
     if (val.includes('file-view:')) {

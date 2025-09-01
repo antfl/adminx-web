@@ -36,7 +36,7 @@ export const getTimeGreeting = () => {
  * 是否 QQ 头像
  * @param url
  */
-export const isQQAvatar = (url: string) => {
+export const isThirdAvatar = (url: string) => {
   if (url == null) return false;
   return (
     url.includes('/ek_qqapp/') ||
