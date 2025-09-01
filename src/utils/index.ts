@@ -33,7 +33,7 @@ export const getTimeGreeting = () => {
 };
 
 /**
- * 是否 QQ 头像
+ * 三方账号头像判断
  * @param url
  */
 export const isThirdAvatar = (url: string) => {
