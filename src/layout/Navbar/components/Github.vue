@@ -5,22 +5,22 @@ import { GithubOutlined } from '@ant-design/icons-vue';
 const gitPathList = [
   {
     name: 'Github - Adminx web',
-    path: 'https://github.com/byte-scheduler/admin-x-web',
+    path: 'https://github.com/antfl/adminx-web',
   },
   {
     name: 'Github - Adminx server',
-    path: 'https://github.com/byte-scheduler/admin-x-server',
+    path: 'https://github.com/antfl/adminx-server',
   },
   {
     name: 'Gitee - Adminx web',
-    path: 'https://gitee.com/byte-scheduler/admin-x-web',
+    path: 'https://gitee.com/antfl/adminx-web',
   },
   {
     name: 'Gitee - Adminx server',
-    path: 'https://gitee.com/byte-scheduler/admin-x-server',
+    path: 'https://gitee.com/antfl/adminx-server',
   },
   {
-    name: '点击链接加入群聊【Admin x 大暑版】',
+    name: '加入群聊【Admin x 大暑版】',
     path: 'https://qm.qq.com/q/KCSI9GMiE8',
   },
 ];

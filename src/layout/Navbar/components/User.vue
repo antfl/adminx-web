@@ -25,7 +25,7 @@ const handleClick = ({ key }: { key: string | number }) => {
 </script>
 
 <template>
-  <a-flex class="ml-44px" align="center">
+  <a-flex class="md:ml-44px" align="center">
     <div class="mr-8px">{{ nickname }}</div>
     <a-dropdown>
       <Avatar :src="avatar" :size="36" />
