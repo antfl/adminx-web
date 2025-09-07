@@ -1,0 +1,228 @@
+@import 'bytemd/dist/index.css';
+@import 'highlight.js/styles/github.css';
+
+@monospace-font: Menlo, Monaco, Consolas, 'Courier New', monospace;
+@line-space: 22px;
+
+.markdown-container {
+  position: relative;
+  z-index: 100 !important;
+
+  .bytemd {
+    height: calc(100vh - 160px);
+  }
+
+  .bytemd,
+  .CodeMirror,
+  .bytemd-toolbar {
+    color: var(--color-text);
+    background-color: var(--color-bg-container);
+  }
+}
+
+.markdown-body {
+  overflow-x: hidden;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.75;
+  color: #333;
+  word-break: break-word;
+
+  @media (width <= 720px) {
+    h1 {
+      font-size: 24px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    h3 {
+      font-size: 18px;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    padding-bottom: 5px;
+    margin-top: 35px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  h1 {
+    margin-bottom: 5px;
+    font-size: 24px;
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: 20px;
+  }
+
+  h2 {
+    padding-bottom: 12px;
+    border-bottom: 1px solid #ececec;
+  }
+
+  h3 {
+    padding-bottom: 0;
+    font-size: 18px;
+  }
+
+  h6 {
+    margin-top: 5px;
+  }
+
+  p {
+    margin-top: @line-space;
+    margin-bottom: @line-space;
+    line-height: inherit;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  hr {
+    margin-top: 32px;
+    margin-bottom: 32px;
+    border-top: 1px solid #ddd;
+    border-right: none;
+    border-bottom: none;
+    border-left: none;
+  }
+
+  code {
+    padding: 0.065em 0.4em;
+    overflow-x: auto;
+    font-family: @monospace-font;
+    font-size: 0.87em;
+    color: #ff502c;
+    word-break: break-word;
+    background-color: var(--color-bg-elevated);
+    border-radius: 2px;
+  }
+
+  pre {
+    position: relative;
+    overflow: auto;
+    font-family: @monospace-font;
+    line-height: 1.75;
+
+    > code {
+      display: block;
+      padding: 15px 12px;
+      margin: 0;
+      overflow-x: auto;
+      font-size: 12px;
+      color: #333;
+      word-break: normal;
+      background-color: var(--color-bg-elevated);
+    }
+  }
+
+  a {
+    color: #0269c8;
+    text-decoration: none;
+    border-bottom: 1px solid #d1e9ff;
+
+    &:hover,
+    &:active {
+      color: #275b8c;
+    }
+  }
+
+  table {
+    display: inline-block !important;
+    width: auto;
+    max-width: 100%;
+    overflow: auto;
+    font-size: 12px;
+    border: solid 1px #f6f6f6;
+  }
+
+  thead {
+    color: #000;
+    text-align: left;
+    background: #f6f6f6;
+  }
+
+  tr:nth-child(2n) {
+    background-color: #fcfcfc;
+  }
+
+  th,
+  td {
+    padding: 12px 7px;
+    line-height: 24px;
+  }
+
+  td {
+    min-width: 120px;
+  }
+
+  blockquote {
+    padding: 1px 23px;
+    margin: 22px 0;
+    color: #666;
+    background-color: #f8f8f8;
+    border-left: 4px solid #cbcbcb;
+
+    &::after {
+      display: block;
+      content: '';
+    }
+
+    & > p {
+      margin: 10px 0;
+    }
+  }
+
+  ol,
+  ul {
+    padding-left: 28px;
+
+    li {
+      margin-bottom: 0;
+      list-style: inherit;
+
+      & .task-list-item {
+        list-style: none;
+
+        ul,
+        ol {
+          margin-top: 0;
+        }
+      }
+    }
+
+    ul,
+    ol {
+      margin-top: 3px;
+    }
+  }
+
+  ol li {
+    padding-left: 6px;
+  }
+
+  .contains-task-list {
+    padding-left: 0;
+  }
+
+  .task-list-item {
+    list-style: none;
+  }
+}
