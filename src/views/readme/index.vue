@@ -1,24 +1,19 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 
-import MarkdownViewer from '@/components/MarkdownViewer/index.vue';
-
+import { MdViewer } from '@/components/Markdown';
+import { detailArticle } from '@/api/article/article';
 const markdownContent = ref('');
 const isLoading = ref(true);
 
-const loadMarkdownFile = async () => {
-  try {
-    const response = await fetch('README.md');
-    markdownContent.value = await response.text();
-  } catch {
-    markdownContent.value = '# 加载失败\n请检查文件路径';
-  } finally {
-    isLoading.value = false;
-  }
+const getDetail = async () => {
+  isLoading.value = true;
+  const res = await detailArticle('2498');
+  markdownContent.value = res.data.content;
+  isLoading.value = false;
 };
-
 onMounted(() => {
-  loadMarkdownFile();
+  getDetail();
 });
 </script>
 
@@ -26,7 +21,7 @@ onMounted(() => {
   <div class="m-10px">
     <a-card>
       <a-spin :spinning="isLoading">
-        <MarkdownViewer :content="markdownContent" />
+        <MdViewer :content="markdownContent" />
       </a-spin>
     </a-card>
   </div>

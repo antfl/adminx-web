@@ -9,9 +9,8 @@ import {
 import { message } from 'ant-design-vue';
 import { useRoute } from 'vue-router';
 import { useClipboard } from '@vueuse/core';
-
+import { MdViewer } from '@/components/Markdown';
 import { Article, detailArticle, InteractionType, toggleInteraction } from '@/api/article/article';
-import MarkdownViewer from '@/components/MarkdownViewer/index.vue';
 import router from '@/router';
 import CommentComposer from '@/views/article/components/CommentComposer/index.vue';
 import { omit } from 'lodash-es';
@@ -147,7 +146,7 @@ const setButtonProps = (active: boolean | undefined) => {
       <h1 class="mb-16px font-size-20px">{{ articleData?.title }}</h1>
       <a-badge-ribbon :text="articleData?.categoryName">
         <a-card :loading="isLoading">
-          <MarkdownViewer :content="articleData.content" />
+          <MdViewer :content="articleData.content" />
         </a-card>
       </a-badge-ribbon>
       <div ref="targetElementRef">

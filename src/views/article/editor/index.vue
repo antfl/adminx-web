@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { message } from 'ant-design-vue';
 import { useRoute } from 'vue-router';
+import { CloseOutlined } from '@ant-design/icons-vue';
+import { Modal } from 'ant-design-vue';
+import { MdEditor } from '@/components/Markdown';
 
 import {
   Article,
@@ -43,7 +46,13 @@ const submitForm = async () => {
 };
 
 const handleBack = () => {
-  router.back();
+  Modal.confirm({
+    title: '确认关闭吗？',
+    content: '该操作不会保存当前编辑内容',
+    onOk() {
+      router.back();
+    },
+  });
 };
 
 onMounted(() => {
@@ -53,38 +62,34 @@ onMounted(() => {
 
 <template>
   <div class="article-editor-container m-10px">
-    <a-card :loading="isLoading">
-      <a-form ref="formRef" :model="formData" layout="inline">
-        <a-form-item name="title" :rules="[{ required: true }]">
-          <a-input :placeholder="t('请输入文章标题')" v-model:value="formData.title"></a-input>
-        </a-form-item>
-        <a-form-item name="categoryId" :rules="[{ required: true }]">
-          <a-select
-            class="w-130px!"
-            :placeholder="t('请选择文章分类')"
-            v-model:value="formData.categoryId"
-            :options="categoryList"
-            :fieldNames="{
-              label: 'categoryName',
-              value: 'categoryId',
-            }"
-          >
-          </a-select>
-        </a-form-item>
-        <a-form-item>
-          <a-button type="primary" :loading="isSubmit" @click="submitForm">保存</a-button>
-          <a-button class="ml-16px" @click="handleBack">退出</a-button>
-        </a-form-item>
-      </a-form>
-    </a-card>
-    <a-card class="mt-10px">
-      <a-textarea
-        :placeholder="t('请输入文章内容')"
-        :rows="11"
-        show-count
-        v-model:value="formData.content"
+    <a-form ref="formRef" :model="formData" layout="inline" class="pos-relative mb-10px">
+      <a-form-item name="title" :rules="[{ required: true }]">
+        <a-input :placeholder="t('请输入文章标题')" v-model:value="formData.title"></a-input>
+      </a-form-item>
+      <a-form-item name="categoryId" :rules="[{ required: true }]">
+        <a-select
+          class="w-130px!"
+          :placeholder="t('请选择文章分类')"
+          v-model:value="formData.categoryId"
+          :options="categoryList"
+          :fieldNames="{
+            label: 'categoryName',
+            value: 'categoryId',
+          }"
+        >
+        </a-select>
+      </a-form-item>
+      <a-form-item>
+        <a-button type="primary" :loading="isSubmit" @click="submitForm">发布</a-button>
+      </a-form-item>
+      <CloseOutlined
+        class="p-10px pos-absolute right-0 top-50% transform -translate-y-50%"
+        @click="handleBack"
       />
-    </a-card>
+    </a-form>
+    <a-spin :spinning="isLoading">
+      <MdEditor v-model="formData.content" />
+    </a-spin>
   </div>
 </template>
 
