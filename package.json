@@ -50,7 +50,6 @@
     "@nabla/vite-plugin-eslint": "^2.0.5",
     "@types/crypto-js": "^4.2.2",
     "@types/lodash-es": "^4.17.12",
-    "@types/markdown-it": "^14.1.2",
     "@types/node": "^22.15.33",
     "@types/sortablejs": "^1.15.8",
     "@unocss/vite": "^66.3.2",
