@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "build:prod": "tsc --noEmit && vite build",
+    "build:prod": "pnpm run generate:types && vue-tsc --noEmit && vite build",
     "type:check": "vue-tsc --noEmit",
+    "generate:types": "vite build --mode development --emptyOutDir false",
     "preview": "vite preview",
     "eslint": "eslint \"**/*.{vue,js,ts,tsx}\"",
     "eslint:fix": "eslint \"**/*.{vue,js,ts,tsx}\" --fix",
