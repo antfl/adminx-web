@@ -21,13 +21,13 @@ const isMobile = computed(() => screenSize.isMobile.value);
       <div v-if="isMobile" class="w-50px">
         <slot></slot>
       </div>
-      <h1>
+      <h1 class="flex items-center font-500">
         <img
           class="size-28px rounded-5px hidden md:inline-block align-text-top"
           :src="logoPath"
           alt="Admin x"
         />
-        <span class="ml-8px font-size-20px">
+        <span class="ml-12px font-size-20px">
           <span>Admin</span>
           <span class="color-[var(--color-primary)]"> x</span>
         </span>
@@ -37,7 +37,7 @@ const isMobile = computed(() => screenSize.isMobile.value);
       <slot></slot>
     </div>
     <div class="flex items-center">
-      <a-space class="hidden lg:flex font-size-18px" :size="32">
+      <a-space class="hidden lg:flex font-size-16px" :size="32">
         <Github />
         <Notice />
         <Search />
