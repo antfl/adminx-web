@@ -6,11 +6,17 @@
 
 https://adminx.byteout.cn
 
+![dashboard.png](docs/dashboard.png)
+
 ## 交流与反馈
 
 [加入 Byteout 技术交流群](https://qm.qq.com/q/KCSI9GMiE8)
 
-![dashboard.png](docs/dashboard.png)
+### 贡献者
+
+<a href="https://github.com/antfl/adminx-web/graphs/contributors" target="_blank">
+  <img src="https://contrib.rocks/image?repo=antfl/adminx-web&columns=12" alt="">
+</a>
 
 ## 软件架构
 
