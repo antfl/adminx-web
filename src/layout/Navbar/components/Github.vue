@@ -19,10 +19,6 @@ const gitPathList = [
     name: 'Gitee - Adminx server',
     path: 'https://gitee.com/antfl/adminx-server',
   },
-  {
-    name: '加入群聊【Admin x 大暑版】',
-    path: 'https://qm.qq.com/q/KCSI9GMiE8',
-  },
 ];
 
 const handleMenuClick = (url: string) => {
