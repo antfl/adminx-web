@@ -11,10 +11,10 @@ export const externalList = [
     component: Layout,
     children: [
       {
-        path: 'JueJin',
+        path: 'juejin',
         name: 'JueJin',
         meta: {
-          title: t('掘金（内嵌）'),
+          title: t('内嵌 - 掘金'),
           iframeUrl: 'https://juejin.cn/user/3237402792170343',
         },
         component: WebView,
@@ -23,8 +23,8 @@ export const externalList = [
         path: 'github',
         name: 'GitHub',
         meta: {
-          title: t('GitHub（跳转）'),
-          externalUrl: 'https://github.com',
+          title: t('跳转 - GitHub'),
+          externalUrl: 'https://github.com/antfl',
         },
         component: { render: () => null },
       },
@@ -32,7 +32,7 @@ export const externalList = [
         path: 'antd',
         name: 'Antd',
         meta: {
-          title: t('Ant Design Vue（跳转）'),
+          title: t('跳转 - Ant Design Vue'),
           externalUrl: 'https://www.antdv.com/components/icon-cn',
         },
         component: { render: () => null },

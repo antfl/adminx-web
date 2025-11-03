@@ -7,7 +7,6 @@ import {
   FrownOutlined,
   UserOutlined,
 } from '@ant-design/icons-vue';
-import { articleList } from '@/router/article';
 import { systemList } from '@/router/system';
 import { monitorList } from '@/router/monitor';
 import { settingList } from '@/router/setting';
@@ -61,7 +60,6 @@ export const constantRoutes: RouteRaw[] = [
       },
     ],
   },
-  ...articleList,
   ...systemList,
   ...monitorList,
   ...settingList,
