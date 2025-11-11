@@ -30,7 +30,7 @@ export const useThemeStore = defineStore('theme', () => {
     algorithm: currentTheme.value === 'dark' ? darkAlgorithm : defaultAlgorithm,
     token: {
       colorPrimary: primaryColor.value,
-      borderRadius: 2,
+      borderRadius: 5.8,
     },
   }));
 

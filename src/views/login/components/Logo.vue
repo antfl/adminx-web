@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import logoPath from '@/assets/images/logo.jpg';
+import logoPath from '@/assets/images/logo.svg';
 </script>
 
 <template>

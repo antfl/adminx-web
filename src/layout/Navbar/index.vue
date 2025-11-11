@@ -7,7 +7,7 @@ import Search from '@/layout/Navbar/components/Search.vue';
 import Theme from '@/layout/Navbar/components/Theme.vue';
 import Translate from '@/layout/Navbar/components/Translate.vue';
 import User from '@/layout/Navbar/components/User.vue';
-import logoPath from '@/assets/images/logo.jpg';
+import logoPath from '@/assets/images/logo.svg';
 
 import { useScreenSize } from '@/hooks/modules/useScreenSize';
 

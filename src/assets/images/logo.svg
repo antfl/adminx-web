@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <defs>
+    <linearGradient id="logo-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82FF" />
+      <stop offset="100%" stop-color="#2566F8" />
+    </linearGradient>
+  </defs>
+  <rect width="96" height="96" rx="18" fill="url(#logo-accent)" />
+  <g fill="#FFFFFF">
+    <rect x="25" y="22" width="21" height="52" rx="5" />
+    <rect x="51" y="22" width="21" height="21" rx="5" />
+    <rect x="51" y="51" width="21" height="24" rx="5" />
+  </g>
+</svg>
+
