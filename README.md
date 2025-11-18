@@ -10,7 +10,7 @@ https://adminx.byteout.cn
 
 ## 交流与反馈
 
-[加入 Byteout 技术交流群](https://qm.qq.com/q/KCSI9GMiE8)
+[加入 Byteout 技术交流群](https://byteout.cn/contact)
 
 ### 贡献者
 

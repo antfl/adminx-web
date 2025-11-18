@@ -4,12 +4,24 @@
       <stop offset="0%" stop-color="#3B82FF" />
       <stop offset="100%" stop-color="#2566F8" />
     </linearGradient>
+    <linearGradient id="rect-left" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#FFFFFF" />
+    </linearGradient>
+    <linearGradient id="rect-top" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#FFFFFF" />
+    </linearGradient>
+    <linearGradient id="rect-bottom" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#FFFFFF" />
+    </linearGradient>
   </defs>
-  <rect width="96" height="96" rx="18" fill="url(#logo-accent)" />
-  <g fill="#FFFFFF">
-    <rect x="25" y="22" width="21" height="52" rx="5" />
-    <rect x="51" y="22" width="21" height="21" rx="5" />
-    <rect x="51" y="51" width="21" height="24" rx="5" />
+  <rect width="96" height="96" rx="24" fill="url(#logo-accent)" />
+  <g>
+    <rect x="19.5" y="19.5" width="26" height="57" rx="8" fill="url(#rect-left)" />
+    <rect x="50.5" y="19.5" width="26" height="26" rx="8" fill="url(#rect-top)" />
+    <rect x="50.5" y="50.5" width="26" height="26" rx="8" fill="url(#rect-bottom)" />
   </g>
 </svg>
 
