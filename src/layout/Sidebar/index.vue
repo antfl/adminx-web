@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
-import { MenuOutlined } from '@ant-design/icons-vue';
 import { filterRoutes } from '@/utils/router';
 import { usePermissionStore } from '@/store/modules/permission';
 import { useSystemStore } from '@/store/modules/systemStore';
 import { useTabsStore } from '@/store/modules/tabsStore';
 import { cloneDeep } from 'lodash-es';
-import type { MenuProps } from 'ant-design-vue';
+
+import MenuRecursive from './MenuRecursive.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -18,26 +18,23 @@ const menuRoutes = computed(() => filterRoutes(cloneDeep(permissionStore.menuRou
 
 interface CustomMenuItem {
   key: string;
-  label?: any;
-  icon?: any;
   children?: CustomMenuItem[];
-  [key: string]: any;
 }
 
 const routeMap = ref<Map<string, any>>(new Map());
-const openKeys = ref<MenuProps['openKeys']>([]);
+const expanded = ref<string[]>([]);
 
-const handleMenuClick = ({ key }: { key: string | number }) => {
-  const path = key as string;
-  const route = routeMap.value.get(path);
+const handleMenuChange = (value: string | number) => {
+  const path = String(value);
+  const target = routeMap.value.get(path);
 
-  if (route?.meta?.externalUrl) {
-    window.open(route.meta.externalUrl, '_blank');
+  if (target?.meta?.externalUrl) {
+    window.open(target.meta.externalUrl, '_blank');
     return;
   }
 
-  tabsStore.setActiveTab(key as string);
-  router.push(key as string);
+  tabsStore.setActiveTab(path);
+  router.push(path);
 };
 
 const resolvePath = (path: string, basePath: string) => {
@@ -50,99 +47,68 @@ const resolvePath = (path: string, basePath: string) => {
   return `${normalizedBase}/${normalizedPath}`;
 };
 
-function convertRoutesToMenuItems(routes: any[], basePath: string): CustomMenuItem[] {
+function indexRoutes(routes: any[], basePath: string): CustomMenuItem[] {
   return routes
-    .map((route) => {
-      if (route.meta?.directlyShowChildren && route.children) {
-        return convertRoutesToMenuItems(route.children, basePath);
+    .map((item) => {
+      if (item.meta?.directlyShowChildren && item.children) {
+        return indexRoutes(item.children, basePath);
       }
 
-      const fullPath = resolvePath(route.path, basePath);
-      routeMap.value.set(fullPath, route);
+      const fullPath = resolvePath(item.path, basePath);
+      routeMap.value.set(fullPath, item);
 
-      const menuItem: any = {
-        key: fullPath,
-        label: route.meta?.title,
-      };
-
-      if (route.meta?.icon) {
-        menuItem.icon = () => h(route.meta.icon);
+      const menuItem: CustomMenuItem = { key: fullPath };
+      if (item.children?.length) {
+        menuItem.children = indexRoutes(item.children, fullPath);
       }
-
-      if (route.children && route.children.length > 0) {
-        menuItem.children = convertRoutesToMenuItems(route.children, fullPath);
-      }
-
       return menuItem;
     })
     .flat();
 }
 
-const menuItems = computed(() => {
-  return convertRoutesToMenuItems(menuRoutes.value, '');
-});
+const menuItems = computed(() => indexRoutes(menuRoutes.value, ''));
 
 const findParentKeys = (
   items: CustomMenuItem[],
   targetKey: string,
   parents: string[] = [],
 ): string[] => {
-  if (!items) return [];
-
   for (const item of items) {
-    if (!item) continue;
-
-    const key = item.key as string;
-    if (key === targetKey) {
-      return parents;
-    }
-
+    if (item.key === targetKey) return parents;
     if (item.children) {
-      const found = findParentKeys(item.children, targetKey, [...parents, key]);
-      if (found.length) {
-        return found;
-      }
+      const found = findParentKeys(item.children, targetKey, [...parents, item.key]);
+      if (found.length) return found;
     }
   }
-
   return [];
 };
 
-const updateOpenKeys = () => {
-  if (!activeTab.value || !menuItems.value) return;
-
-  openKeys.value = findParentKeys(menuItems.value, activeTab.value);
+const updateExpanded = () => {
+  if (!activeTab.value || !menuItems.value.length) return;
+  expanded.value = findParentKeys(menuItems.value, activeTab.value);
 };
 
-watch(
-  () => route.path,
-  () => {
-    updateOpenKeys();
-  },
-);
-
-onMounted(() => {
-  updateOpenKeys();
-});
-
-const handleOpenChange = (keys: MenuProps['openKeys']) => {
-  openKeys.value = keys;
-};
+watch(() => route.path, updateExpanded);
+onMounted(updateExpanded);
 </script>
 
 <template>
-  <a-menu
-    class="[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-    :items="menuItems"
-    :mode="systemStore.layout.menu.mode"
-    :class="systemStore.layout.menu.style"
-    :selectedKeys="[activeTab]"
-    :openKeys="openKeys"
-    @click="handleMenuClick"
-    @update:openKeys="handleOpenChange"
+  <t-menu
+    :value="activeTab"
+    v-model:expanded="expanded"
+    :collapsed="systemStore.isCollapsed"
+    class="aside-menu"
+    @change="handleMenuChange"
   >
-    <template #overflowedIndicator>
-      <MenuOutlined />
-    </template>
-  </a-menu>
+    <MenuRecursive :routes="menuRoutes" />
+  </t-menu>
 </template>
+
+<style scoped lang="less">
+.aside-menu {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  border: 0;
+}
+</style>

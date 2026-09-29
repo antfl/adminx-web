@@ -1,4 +1,4 @@
-import { SafetyCertificateOutlined } from '@ant-design/icons-vue';
+import { SecuredIcon } from 'tdesign-icons-vue-next';
 import { t } from '@/i18n';
 import Layout from '@/layout/Layout.vue';
 
@@ -8,18 +8,18 @@ export const monitorList = [
     name: 'Monitor',
     redirect: '/monitor/scheduled-task',
     component: Layout,
-    meta: { title: t('系统监控'), icon: SafetyCertificateOutlined },
+    meta: { title: t('系统监控'), icon: SecuredIcon },
     children: [
       {
         path: 'scheduled-task',
         name: 'ScheduledTask',
-        component: () => import('@/views/monitor/scheduled-task/index.vue'),
+        component: () => import('@/views/common/TitlePage.vue'),
         meta: { title: t('定时任务') },
       },
       {
         path: 'log',
         name: 'OperationLog',
-        component: () => import('@/views/monitor/log/index.vue'),
+        component: () => import('@/views/common/TitlePage.vue'),
         meta: { title: t('操作日志') },
       },
     ],

@@ -1,5 +1,9 @@
 /// <reference types="vite/client" />
 
+interface ImportMetaEnv {
+  readonly VITE_MOCK_LOGIN: string;
+}
+
 declare module '*.json' {
   const value: any;
   export default value;

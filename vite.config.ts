@@ -4,14 +4,16 @@ import eslint from '@nabla/vite-plugin-eslint';
 import vue from '@vitejs/plugin-vue';
 import UnoCSS from 'unocss/vite';
 import AutoImport from 'unplugin-auto-import/vite';
-import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
+import { TDesignResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
 import compression from 'vite-plugin-compression';
 import imagemin from 'vite-plugin-imagemin';
 
+const pagesBase = process.env.GITHUB_PAGES_BASE?.replace(/\/$/, '');
+
 export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/' : '/',
+  base: pagesBase ? `${pagesBase}/` : '/',
   plugins: [
     vue(),
     UnoCSS(),
@@ -25,8 +27,8 @@ export default defineConfig({
     Components({
       dts: 'src/components.d.ts',
       resolvers: [
-        AntDesignVueResolver({
-          importStyle: false,
+        TDesignResolver({
+          library: 'vue-next',
         }),
       ],
     }),
@@ -72,7 +74,7 @@ export default defineConfig({
     }),
   ],
   optimizeDeps: {
-    include: ['ant-design-vue', 'lodash-es', 'echarts', 'vue', 'vue-router', 'pinia'],
+    include: ['tdesign-vue-next', 'tvision-color', 'lodash-es', 'vue', 'vue-router', 'pinia'],
   },
   build: {
     outDir: 'dist',
@@ -84,8 +86,7 @@ export default defineConfig({
         assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
         compact: true,
         manualChunks: {
-          ant: ['ant-design-vue', '@ant-design/icons-vue'],
-          echarts: ['echarts'],
+          tdesign: ['tdesign-vue-next', 'tdesign-icons-vue-next'],
           vue: ['vue', 'vue-router', 'pinia', '@vueuse/core'],
           lodash: ['lodash-es'],
         },

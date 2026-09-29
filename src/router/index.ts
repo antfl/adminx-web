@@ -3,31 +3,9 @@ import { usePermissionStore } from '@/store/modules/permission';
 import { useUserStore, useTabsStore } from '@/store';
 import { type RouteRaw } from '@/types/router';
 import { t } from '@/i18n';
-import { isBindGithub } from '@/api/user/third-party';
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/password-reset',
-      name: 'PasswordReset',
-      component: () => import('@/views/profile/password-reset/index.vue'),
-      meta: {
-        hidden: true,
-        access: 'public',
-        title: t('重置密码'),
-      },
-    },
-    {
-      path: '/create-account',
-      name: 'CreateAccount',
-      component: () => import('@/views/profile/create-account/index.vue'),
-      meta: {
-        hidden: true,
-        access: 'public',
-        title: t('用户信息'),
-      },
-    },
     {
       path: '/login',
       name: 'Login',
@@ -35,7 +13,7 @@ const router = createRouter({
       meta: {
         hidden: true,
         access: 'public',
-        title: t('🍃 一个全场景企业级后台管理模板'),
+        title: t('一个全场景企业级后台管理模板'),
       },
     },
   ],
@@ -69,18 +47,6 @@ router.beforeEach(async (to, _from, next) => {
     }
 
     return next(location);
-  }
-
-  // 绑定 GitHub 账号登录
-  if (isBindGithub(to.fullPath)) {
-    const { code, provider } = to.query;
-    return next({
-      path: '/profile',
-      query: {
-        code,
-        provider,
-      },
-    });
   }
 
   if (to.name === 'Login') {

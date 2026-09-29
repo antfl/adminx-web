@@ -1,12 +1,21 @@
 import { defineStore } from 'pinia';
 import { usePermissionStore } from '@/store/modules/permission';
 
-import { fetchPermissions, User } from '@/api/user';
-import { userInfo } from '@/api/user';
+export interface SessionUser {
+  userId: number;
+  nickname: string;
+  avatar: string;
+}
+
+const mockUser: SessionUser = {
+  userId: 1,
+  nickname: '管理员',
+  avatar: '',
+};
 
 export const useUserStore = defineStore('user', () => {
   const token = ref<string | null>(localStorage.getItem('token'));
-  const user = ref<User | null>(null);
+  const user = ref<SessionUser | null>(null);
   const loading = ref(false);
 
   const isAuthenticated = computed(() => !!token.value);
@@ -33,30 +42,22 @@ export const useUserStore = defineStore('user', () => {
   };
 
   /**
-   * 获取用户信息
+   * 使用本地模拟用户
    */
   const getUserInfo = async () => {
     if (!token.value) return false;
-    try {
-      loading.value = true;
-      const res = await userInfo();
-      user.value = res.data;
-      return true;
-    } catch {
-      clear();
-      return false;
-    } finally {
-      loading.value = false;
-    }
+    loading.value = true;
+    user.value = { ...mockUser };
+    loading.value = false;
+    return true;
   };
 
   /**
-   * 获取权限信息
+   * 使用静态菜单，不再请求权限接口
    */
   const getPermissions = async () => {
-    const { data } = await fetchPermissions();
     const permissionStore = usePermissionStore();
-    permissionStore.setPermissions(data.menus, [...data.permissions]);
+    permissionStore.setPermissions([], []);
   };
 
   return {

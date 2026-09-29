@@ -1,40 +1,68 @@
 <script setup lang="ts">
-import Avatar from '@/components/Avatar/index.vue';
 import { useAuth } from '@/hooks/modules/useAuth';
 import { t } from '@/i18n';
 import { useUserStore } from '@/store';
 import { useRouter } from 'vue-router';
+import type { DropdownOption } from 'tdesign-vue-next';
 
 const userStore = useUserStore();
 const auth = useAuth();
 
 const avatar = computed(() => userStore.user?.avatar);
-const nickname = computed(() => userStore.user?.nickname);
+const nickname = computed(() => userStore.user?.nickname || '管理员');
+const initial = computed(() => nickname.value.trim().charAt(0));
 const router = useRouter();
-const handleClick = ({ key }: { key: string | number }) => {
-  if (key === 'logout') {
+const options = computed(() => [
+  { content: t('个人中心'), value: 'Profile' },
+  { content: t('退出登录'), value: 'logout' },
+]);
+
+const handleClick = (item: DropdownOption) => {
+  if (item.value === 'logout') {
     auth.logout();
   }
-
-  if (key === 'Profile') {
-    router.push({
-      path: '/profile',
-    });
+  if (item.value === 'Profile') {
+    router.push({ path: '/profile' });
   }
 };
 </script>
 
 <template>
-  <a-flex class="md:ml-44px" align="center">
-    <div class="mr-8px">{{ nickname }}</div>
-    <a-dropdown>
-      <Avatar :src="avatar" :size="36" />
-      <template #overlay>
-        <a-menu @click="handleClick">
-          <a-menu-item key="Profile">{{ t('个人中心') }}</a-menu-item>
-          <a-menu-item key="logout">{{ t('退出') }}</a-menu-item>
-        </a-menu>
-      </template>
-    </a-dropdown>
-  </a-flex>
+  <t-dropdown :options="options" @click="handleClick">
+    <t-button variant="text" type="button" class="account">
+      <t-avatar class="avatar" :image="avatar || undefined" size="28px">{{ initial }}</t-avatar>
+      <span>{{ nickname }}</span>
+    </t-button>
+  </t-dropdown>
 </template>
+
+<style scoped lang="less">
+.account.t-button {
+  height: auto;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+
+  &:hover,
+  &:focus,
+  &:focus-visible,
+  &:active {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+}
+
+.account,
+.account :deep(.t-button__text) {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.avatar {
+  color: var(--td-text-color-anti);
+  background: var(--td-brand-color);
+}
+</style>

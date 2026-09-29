@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { FrownOutlined } from '@ant-design/icons-vue';
+import { InfoCircleIcon } from 'tdesign-icons-vue-next';
 import { constantRoutes } from '@/router/routes';
 import type { RouteRaw } from '@/types/router';
 import { useLocalStorage } from '@vueuse/core';
@@ -60,7 +60,7 @@ export const usePermissionStore = defineStore('permission', {
           component,
           meta: {
             title: menu.titleZh,
-            icon: FrownOutlined,
+            icon: InfoCircleIcon,
             cache: menu.cache,
             hidden: menu.hidden,
             permission: menu.permission,

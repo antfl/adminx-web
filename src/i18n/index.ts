@@ -1,25 +1,23 @@
 import { App, ref, readonly } from 'vue';
 import { createI18n, type I18n, type Composer } from 'vue-i18n';
 
-import { getLang, setLang } from '@/utils/lang';
+import { getLang, setLang, type SupportedLocale } from '@/utils/lang';
 
+import deDE from './locales/de-DE.json';
 import enUS from './locales/en-US.json';
 import zhCN from './locales/zh-CN.json';
 
-type SupportedLocale = 'zh-CN' | 'en-US';
+export type { SupportedLocale };
 
-// 定义翻译文件类型
 type TranslationDictionary = Record<string, string>;
 type LocaleMessages = Record<SupportedLocale, TranslationDictionary>;
 
 /** 语言状态 */
-const currentLocale = ref<SupportedLocale>((getLang() as SupportedLocale) || 'zh-CN');
+const currentLocale = ref<SupportedLocale>(getLang() || 'zh-CN');
 
-// 创建反向映射：从中文文本到 KEY
-const textToKeyMap: Map<string, string> = new Map();
-Object.entries(zhCN as TranslationDictionary).forEach(([key, value]) => {
-  textToKeyMap.set(value, key);
-});
+if (typeof document !== 'undefined') {
+  document.documentElement.lang = currentLocale.value;
+}
 
 export const localeList = [
   {
@@ -30,51 +28,48 @@ export const localeList = [
     value: 'en-US',
     label: 'English',
   },
+  {
+    value: 'de-DE',
+    label: 'Deutsch',
+  },
 ];
 
-// 创建完整的消息对象
-const messages: LocaleMessages = {
-  'zh-CN': zhCN as TranslationDictionary,
-  'en-US': enUS as TranslationDictionary,
+const hashToText = new Map<string, string>(Object.entries(zhCN));
+
+/** 语言包以哈希为 key，运行时改成中文原文，这样 t('首页') 和 $t('首页') 都能命中。 */
+const bindLocale = (pack: TranslationDictionary): TranslationDictionary => {
+  const messages: TranslationDictionary = {};
+  hashToText.forEach((source, hash) => {
+    messages[source] = pack[hash] || source;
+  });
+  return messages;
 };
 
-/** 创建 i18n 实例 */
+const messages: LocaleMessages = {
+  'zh-CN': bindLocale(zhCN),
+  'en-US': bindLocale(enUS),
+  'de-DE': bindLocale(deDE),
+};
+
+/** 创建 i18n 实例。语言包的 key 是中文原文的哈希，由 i18next-scanner 写入。 */
 export const i18n: I18n = createI18n({
   legacy: false,
   locale: currentLocale.value,
-  fallbackLocale: 'en-US',
+  fallbackLocale: 'zh-CN',
   messages,
-  silentTranslationWarn: true,
+  missingWarn: false,
+  fallbackWarn: false,
 });
 
-// 获取全局 composer 实例
 const globalI18n = i18n.global as unknown as Composer;
 
+const HASH_KEY = /^[A-Z0-9]{12}$/;
+
 export const t = (input: string): string => {
-  // 判断输入是否是 KEY（12位大写字母和数字）
-  const isKey = /^[A-Z0-9]{12}$/.test(input);
-
-  // 获取实际要翻译的 KEY
-  const key = isKey ? input : textToKeyMap.get(input) || input;
-
-  try {
-    // 使用类型安全的翻译调用
-    const result = globalI18n.t(key);
-
-    // 处理未找到翻译的情况
-    if (result === key) {
-      return isKey ? key : input;
-    }
-
-    return result;
-  } catch (error) {
-    // 在开发环境下输出错误信息
-    if (process.env.NODE_ENV === 'development') {
-      // eslint-disable-next-line no-console
-      console.warn(`翻译错误: key=${key}, input=${input}`, error);
-    }
-    return isKey ? key : input;
-  }
+  if (!input) return input;
+  const source = HASH_KEY.test(input) ? hashToText.get(input) || input : input;
+  const result = globalI18n.t(source);
+  return result || source;
 };
 
 /** 设置语言 */

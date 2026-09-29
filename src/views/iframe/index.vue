@@ -15,7 +15,7 @@ const handleLoad = () => {
   <div class="iframe-container">
     <iframe :src="url" class="iframe-content" @load="handleLoad" />
     <div v-if="loading" class="iframe-loading">
-      <a-spin size="large" tip="加载中..." />
+      <t-loading size="large" :tip="$t('加载中...')" />
     </div>
   </div>
 </template>
@@ -23,8 +23,9 @@ const handleLoad = () => {
 <style scoped lang="less">
 .iframe-container {
   position: relative;
+  flex: 1;
   width: 100%;
-  height: 100%;
+  min-height: 0;
   overflow: hidden;
 }
 

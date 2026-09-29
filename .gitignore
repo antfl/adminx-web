@@ -27,3 +27,10 @@ dist-ssr
 
 auto-imports.d.ts
 components.d.ts
+# TranCopilot 项目规则文件夹
+*.copilot
+
+# 本机 AI Trace 钩子，只留在本地
+.husky/post-commit
+.husky/prepare-commit-msg
+.husky/post_commit/

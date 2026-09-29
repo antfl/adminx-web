@@ -1,12 +1,12 @@
 import Layout from '@/layout/Layout.vue';
 import { t } from '@/i18n';
 import {
-  BugOutlined,
-  HomeOutlined,
-  NodeIndexOutlined,
-  FrownOutlined,
-  UserOutlined,
-} from '@ant-design/icons-vue';
+  BugIcon,
+  HomeIcon,
+  RelativityIcon,
+  InfoCircleIcon,
+  UserIcon,
+} from 'tdesign-icons-vue-next';
 import { systemList } from '@/router/system';
 import { monitorList } from '@/router/monitor';
 import { settingList } from '@/router/setting';
@@ -23,38 +23,36 @@ export const constantRoutes: RouteRaw[] = [
       {
         path: '',
         name: 'Home',
-        component: () => import('@/views/home/index.vue'),
+        component: () => import('@/views/common/TitlePage.vue'),
         meta: {
           title: t('首页'),
-          icon: HomeOutlined,
-          footer: true,
+          icon: HomeIcon,
         },
       },
       {
         path: 'readme',
         name: 'Readme',
-        component: () => import('@/views/readme/index.vue'),
+        component: () => import('@/views/common/TitlePage.vue'),
         meta: {
-          icon: NodeIndexOutlined,
+          icon: RelativityIcon,
           title: t('请阅读我'),
         },
       },
       {
         path: 'dashboard',
         name: 'Dashboard',
-        component: () => import('@/views/dashboard/index.vue'),
+        component: () => import('@/views/common/TitlePage.vue'),
         meta: {
-          footer: true,
           title: t('数据看板'),
-          icon: BugOutlined,
+          icon: BugIcon,
         },
       },
       {
         path: 'profile',
         name: 'Profile',
-        component: () => import('@/views/profile/index.vue'),
+        component: () => import('@/views/common/TitlePage.vue'),
         meta: {
-          icon: UserOutlined,
+          icon: UserIcon,
           title: t('个人中心'),
         },
       },
@@ -73,7 +71,7 @@ export const constantRoutes: RouteRaw[] = [
     children: [
       {
         path: '404',
-        meta: { title: '404', icon: FrownOutlined },
+        meta: { title: '404', icon: InfoCircleIcon },
         component: () => import('@/views/error/404.vue'),
       },
     ],

@@ -1,179 +1,82 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
-import { message } from 'ant-design-vue';
-
-import router from '@/router';
 import { useAuth } from '@/hooks';
-import { captcha } from '@/api/user/auth';
-import qqIcon from '@/assets/images/qq.png';
-import wxIcon from '@/assets/images/wx.png';
-import githubIcon from '@/assets/images/github.png';
-import {
-  CallbackType,
-  GithubRedirectURL,
-  QQRedirectURL,
-  ThirdPartyProvider,
-} from '@/api/user/third-party';
+import { t } from '@/i18n';
+import { isMockLogin } from '@/mocks/auth';
+import { message } from '@/utils/message';
 
-const route = useRoute();
-
-const checked = ref(false);
+const checked = ref(true);
 const auth = useAuth();
 const isLoading = ref(false);
 const formData = reactive({
-  username: '',
-  password: '',
-  captchaId: '',
-  code: '',
+  username: isMockLogin ? 'admin' : '',
+  password: isMockLogin ? '123456' : '',
 });
 
-const emit = defineEmits<{
-  (e: 'toggle'): void;
-}>();
-
-const captchaLoading = ref(true);
-const captchaId = ref('');
-const captchaImageBase64 = ref('');
-const refreshCode = async () => {
-  captchaLoading.value = true;
-  const { data } = await captcha().finally(() => {
-    captchaLoading.value = false;
-  });
-  captchaId.value = data.captchaId;
-  captchaImageBase64.value = data.captchaImageBase64;
-};
-
-/**
- * 登录
- */
 const handleSubmit = async () => {
   if (!checked.value) {
-    message.warn('请先同意服务协议和隐私权说明');
+    message.warn(t('请先同意服务协议和隐私权说明'));
     return;
   }
 
   isLoading.value = true;
-  formData.captchaId = captchaId.value;
-  await auth
-    .accountLogin(formData)
-    .catch(() => {
-      refreshCode();
-    })
-    .finally(() => {
-      isLoading.value = false;
-    });
+  await auth.accountLogin(formData).finally(() => {
+    isLoading.value = false;
+  });
 };
-
-const handleRegister = () => {
-  emit('toggle');
-};
-
-const loginMethods = [
-  {
-    provider: ThirdPartyProvider.GITHUB,
-    icon: githubIcon,
-    name: '使用 Github 登录',
-    href: GithubRedirectURL(CallbackType.LOGIN),
-    disabled: false,
-  },
-  {
-    provider: ThirdPartyProvider.QQ,
-    icon: qqIcon,
-    name: '使用 QQ 登录',
-    href: QQRedirectURL(CallbackType.LOGIN),
-    disabled: false,
-  },
-  {
-    provider: ThirdPartyProvider.WECHAT,
-    icon: wxIcon,
-    name: '使用微信登录',
-    href: '',
-    disabled: true,
-  },
-];
-
-/**
- * 三方账号登录回调
- */
-const thirdPartyLoginCallback = () => {
-  const { code, provider } = route.query as { code: string; provider: string };
-  if (code && provider) {
-    auth.thirdPartyLogin({
-      authCode: code,
-      provider: provider,
-    });
-  }
-};
-
-onMounted(async () => {
-  thirdPartyLoginCallback();
-  await refreshCode();
-});
 </script>
 
 <template>
-  <a-form @finish="handleSubmit" :model="formData" size="large">
-    <a-form-item name="username" :rules="[{ required: true, message: '请输入用户名或邮箱' }]">
-      <a-input v-model:value="formData.username" placeholder="请输入用户名或邮箱"></a-input>
-    </a-form-item>
-    <a-form-item name="password" :rules="[{ required: true, message: '请输入密码' }]">
-      <a-input-password
-        v-model:value="formData.password"
-        placeholder="请输入密码"
-      ></a-input-password>
-    </a-form-item>
-    <a-form-item name="code" :rules="[{ required: true, message: '请输入验证码' }]">
-      <a-space>
-        <a-input v-model:value="formData.code" placeholder="请输入验证码"></a-input>
-        <a-button
-          :loading="captchaLoading"
-          @click="refreshCode"
-          :style="{ backgroundImage: `url(${captchaImageBase64})` }"
-          class="w-[110px]! bg-cover bg-center bg-no-repeat"
-        ></a-button>
-      </a-space>
-    </a-form-item>
-    <a-form-item class="mt-36px">
-      <a-button class="w-full" type="primary" html-type="submit" :loading="isLoading">
-        登录
-      </a-button>
-      <div class="mt-9px flex items-center justify-between">
-        <div>
-          <span>没有账号？</span>
-          <a-button class="px-0!" @click="handleRegister" type="link" size="small"
-            >点击注册
-          </a-button>
-        </div>
-        <a-button
-          class="px-0!"
-          @click="router.push({ name: 'PasswordReset' })"
-          type="link"
-          size="small"
-          >忘记密码？
-        </a-button>
-      </div>
-    </a-form-item>
-  </a-form>
-  <a-checkbox v-model:checked="checked">
-    我已阅读并同意
-    <a-button class="px-0" type="link" @click.stop>服务协议</a-button>
-    <span> 和 </span>
-    <a-button class="px-0" type="link" @click.stop>隐私政策</a-button>
-  </a-checkbox>
-  <a-flex :gap="16" class="mt-34px" justify="center">
-    <a
-      v-for="item in loginMethods"
-      type="link"
-      class="flex justify-center"
-      :title="item.name"
-      :aria-label="item.name"
-      :data-tooltip="item.name"
-      :href="item.href"
-      :class="{
-        'opacity-20': item.disabled,
-      }"
-    >
-      <img class="size-30px rd-3px" :src="item.icon" :alt="item.name" />
-    </a>
-  </a-flex>
+  <t-form
+    label-width="0"
+    :required-mark="false"
+    @submit="handleSubmit"
+    :data="formData"
+    size="large"
+  >
+    <t-form-item name="username" :rules="[{ required: true, message: t('请输入用户名或邮箱') }]">
+      <t-input v-model="formData.username" :placeholder="t('请输入用户名或邮箱')"></t-input>
+    </t-form-item>
+    <t-form-item name="password" :rules="[{ required: true, message: t('请输入密码') }]">
+      <t-input type="password" v-model="formData.password" :placeholder="t('请输入密码')"></t-input>
+    </t-form-item>
+    <t-form-item class="login-submit" style="margin-top: 16px">
+      <t-button class="w-full" theme="primary" type="submit" :loading="isLoading">
+        {{ t('登录') }}
+      </t-button>
+    </t-form-item>
+  </t-form>
+  <t-checkbox v-model="checked" class="agreement">
+    <span>{{ t('我已阅读并同意') }}</span>
+    <t-button class="agreement__link" variant="text" theme="primary" @click.stop>
+      {{ t('服务协议') }}
+    </t-button>
+    <span>{{ t('和') }}</span>
+    <t-button class="agreement__link" variant="text" theme="primary" @click.stop>
+      {{ t('隐私政策') }}
+    </t-button>
+  </t-checkbox>
 </template>
+
+<style scoped lang="less">
+.agreement {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 12px;
+
+  :deep(.t-checkbox__input) {
+    margin-top: 3px;
+  }
+
+  :deep(.t-checkbox__label) {
+    line-height: 22px;
+  }
+}
+
+.agreement__link {
+  height: auto;
+  padding: 0;
+  margin: 0 4px;
+  line-height: inherit;
+  vertical-align: baseline;
+}
+</style>

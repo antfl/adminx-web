@@ -1,7 +1,7 @@
-import { message } from 'ant-design-vue';
+import { message } from '@/utils/message';
 import router from '@/router';
 
-import { ThirdPartyLogin, authThirdParty, userLogin, type UserLogin } from '@/api/user/auth';
+import { userLogin, type UserLogin } from '@/api/user/auth';
 import { t } from '@/i18n';
 import { useUserStore } from '@/store';
 
@@ -20,32 +20,6 @@ export const useAuth = () => {
     message.success(t('登录成功'));
   };
 
-  /** 三方账号登录 */
-  const thirdPartyLogin = async (params: ThirdPartyLogin) => {
-    const destroy = message.loading({ content: '登录中', duration: 20 });
-    const res = await authThirdParty(params).finally(() => {
-      destroy();
-    });
-    if (res.data.token) {
-      userStore.setToken(res.data.token);
-      await router.replace({
-        path: '/',
-      });
-      message.success({ content: t('登录成功') });
-      return;
-    }
-
-    // 使用三方账号登录没用账号时，必须创建账号
-    if (res.data.openId) {
-      await router.push({
-        name: 'CreateAccount',
-        query: {
-          openId: res.data.openId,
-        },
-      });
-    }
-  };
-
   /** 退出登录 */
   const logout = async () => {
     userStore.clear();
@@ -57,7 +31,6 @@ export const useAuth = () => {
   };
 
   return {
-    thirdPartyLogin,
     accountLogin,
     logout,
   };

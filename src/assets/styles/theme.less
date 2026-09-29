@@ -1,4 +1,4 @@
-@header-height: 55px;
+@header-height: 48px;
 
 // 定义滚动条变量
 @scrollbar-size: 8px;
@@ -9,13 +9,20 @@
 :root {
   --header-height: @header-height;
   --transition-duration: 0.3s;
+  --color-primary: var(--td-brand-color);
+  --color-bg-container: var(--td-bg-color-container);
+  --color-bg-elevated: var(--td-bg-color-container);
+  --color-bg-layout: var(--td-bg-color-page);
+  --color-border-secondary: var(--td-component-border);
+  --color-text: var(--td-text-color-primary);
+  --color-text-secondary: var(--td-text-color-secondary);
 }
 
 body {
   background: var(--color-bg-elevated) !important;
 }
 
-.ant-layout .ant-layout-header {
+.t-layout__header {
   height: @header-height;
   padding: 0;
   line-height: @header-height;
@@ -23,11 +30,11 @@ body {
   border-bottom: 1px solid var(--color-border-secondary);
 }
 
-.ant-layout .ant-layout-sider {
+.t-layout__sider {
   background: var(--color-bg-container) !important;
 }
 
-.ant-layout {
+.t-layout {
   background: var(--color-bg-layout) !important;
 }
 
@@ -67,10 +74,18 @@ body {
 }
 
 // 全局滚动条样式（应用于整个页面）
+html,
+body,
+#app,
+.t-watermark {
+  height: 100%;
+}
+
 html {
   scrollbar-color: @scrollbar-thumb-color @scrollbar-track-color;
   // Firefox 支持
   scrollbar-width: thin;
+  background: var(--td-bg-color-page);
 
   // Webkit 内核浏览器
   &::-webkit-scrollbar {

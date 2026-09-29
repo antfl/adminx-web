@@ -18,10 +18,3 @@ export interface Menu {
   status?: number;
   children: Menu[];
 }
-
-interface MenuTab {
-  path: string;
-  title: string;
-  closable: boolean;
-  icon: any;
-}

@@ -1,4 +1,4 @@
-import { ShareAltOutlined } from '@ant-design/icons-vue';
+import { ShareIcon } from 'tdesign-icons-vue-next';
 import { t } from '@/i18n';
 import Layout from '@/layout/Layout.vue';
 import WebView from '@/views/iframe/index.vue';
@@ -7,7 +7,7 @@ export const externalList = [
   {
     path: '/web-view',
     name: 'WebView',
-    meta: { title: t('三方连接'), icon: ShareAltOutlined },
+    meta: { title: t('三方连接'), icon: ShareIcon },
     component: Layout,
     children: [
       {

@@ -1,52 +1,64 @@
 <script setup lang="ts">
 import LoginForm from '@/views/login/components/LoginForm.vue';
-import RegisterForm from '@/views/login/components/RegisterForm.vue';
 import ThemeLocaleSwitcher from '@/views/login/components/ThemeLocaleSwitcher.vue';
-import Scene from '@/views/login/components/Scene.vue';
 import Logo from '@/views/login/components/Logo.vue';
-
-const isLogin = ref(true);
-const toggleChange = () => {
-  isLogin.value = !isLogin.value;
-};
 </script>
 
 <template>
-  <div class="login-container select-none w-screen h-screen pos-absolute">
-    <div class="h-full flex items-center justify-center">
-      <a-card
-        class="pos-absolute pt-40px pb-10px px-10px w-350px md:w-375px filter-container z-100"
-      >
-        <ThemeLocaleSwitcher />
-        <div class="font-size-24px mb-20px">
-          <span>{{ isLogin ? '欢迎登录' : '欢迎注册' }} </span>
-        </div>
-        <LoginForm v-if="isLogin" @toggle="toggleChange" />
-        <RegisterForm v-else @toggle="toggleChange" />
-      </a-card>
-    </div>
+  <div class="login-page">
     <Logo />
-    <Scene />
+    <div class="login-page__center">
+      <t-card class="login-card">
+        <div class="login-card__bar">
+          <ThemeLocaleSwitcher />
+        </div>
+        <h2 class="login-card__title">{{ $t('欢迎登录') }}</h2>
+        <LoginForm />
+      </t-card>
+    </div>
   </div>
 </template>
 
 <style scoped lang="less">
-.login-container {
+.login-page {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
+  user-select: none;
   filter: drop-shadow(50vw 50vh 50em var(--color-primary));
 
-  :deep(.ant-checkbox-wrapper) {
-    .ant-checkbox:not(.ant-checkbox-checked) {
-      .ant-checkbox-inner {
-        background-color: transparent;
-      }
-    }
-  }
-
-  :deep(.ant-btn-default),
-  :deep(.ant-input-affix-wrapper),
-  :deep(.ant-input) {
+  :deep(.t-input),
+  :deep(.t-input__wrap) {
     background-color: transparent;
   }
+}
+
+.login-page__center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 24px;
+}
+
+.login-card {
+  z-index: 1;
+  width: 400px;
+  max-width: 100%;
+}
+
+.login-card__bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
+.login-card__title {
+  margin: 0 0 20px;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--td-text-color-primary);
 }
 </style>

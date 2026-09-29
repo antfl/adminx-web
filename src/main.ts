@@ -4,14 +4,12 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import { setupI18n } from './i18n';
 import router from './router';
+import 'tdesign-vue-next/es/style/index.css';
 import './style.css';
 import './assets/styles/theme.less';
 import 'virtual:uno.css';
 
 import permPlugin from '@/directives/permission';
-import { initDeviceFingerprint } from '@/utils/fingerprint';
-
-initDeviceFingerprint().finally();
 
 const pinia = createPinia();
 const app = createApp(App);

@@ -1,47 +1,53 @@
 <script setup lang="ts">
-import { useThemeStore } from '@/store/modules/theme';
-import { GlobalOutlined, CaretDownFilled } from '@ant-design/icons-vue';
-import SvgIcon from '@/components/SvgIcon/index.vue';
+import { EarthIcon, CaretDownSmallIcon } from 'tdesign-icons-vue-next';
+import type { DropdownOption } from 'tdesign-vue-next';
 
-const themeStore = useThemeStore();
-const { toggleTheme } = themeStore;
-const themeValue = computed(() => ({
-  name: themeStore.currentTheme,
-  label: themeStore.currentTheme === 'dark' ? '深色' : '浅色',
-}));
-const toggle = () => {
-  toggleTheme(themeValue.value.name === 'dark' ? 'light' : 'dark');
-};
-import { setLocale, currentLanguage, localeList } from '@/i18n';
+import { setLocale, currentLanguage, localeList, type SupportedLocale } from '@/i18n';
 
-const changeLang = (e: { key: string | number }) => {
-  setLocale(e.key as 'zh-CN' | 'en-US');
+const langOptions = computed(() =>
+  localeList.map((item) => ({
+    content: item.label,
+    value: item.value,
+    active: item.value === currentLanguage.value,
+  })),
+);
+
+const changeLang = (item: DropdownOption) => {
+  setLocale(item.value as SupportedLocale);
 };
+
 const currentLangLabel = computed(() => {
   return localeList.find((item) => item.value === currentLanguage.value)?.label;
 });
 </script>
 
 <template>
-  <div class="pos-absolute top-30px right-30px">
-    <div class="flex items-center">
-      <div @click="toggle" class="flex items-center cursor-pointer">
-        <SvgIcon :size="14" name="moon" />
-        <span class="ml-3px">主题{{ `(${themeValue.label})` }}</span>
-      </div>
-      <div class="mx-16px split-line"></div>
-      <a-dropdown>
-        <div class="flex items-center">
-          <GlobalOutlined />
-          <div class="mx-3px">语言{{ `(${currentLangLabel})` }}</div>
-          <CaretDownFilled />
-        </div>
-        <template #overlay>
-          <a-menu @click="changeLang" :selectedKeys="[currentLanguage]">
-            <a-menu-item v-for="item in localeList" :key="item.value">{{ item.label }}</a-menu-item>
-          </a-menu>
-        </template>
-      </a-dropdown>
-    </div>
-  </div>
+  <t-dropdown trigger="click" :options="langOptions" @click="changeLang">
+    <button type="button" class="switcher__trigger">
+      <EarthIcon />
+      <span>{{ $t('语言') }}({{ currentLangLabel }})</span>
+      <CaretDownSmallIcon />
+    </button>
+  </t-dropdown>
 </template>
+
+<style scoped lang="less">
+.switcher__trigger {
+  display: inline-flex;
+  gap: 2px;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--td-text-color-secondary);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+
+  &:hover {
+    color: var(--td-text-color-primary);
+  }
+}
+</style>

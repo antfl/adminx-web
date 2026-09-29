@@ -2,7 +2,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin x - 一个全场景企业级后台管理模板</title>
     <meta name="keywords" content="Admin Vue3 Vite Typescript" />
@@ -10,20 +10,9 @@
       name="description"
       content="一个全场景企业级后台管理模板，集成表单、富文本、可视化图表（ECharts）、拖拽布局、动态表格联动等核心功能，采用模块化设计支持快速扩展，适用于中后台系统开发与前端技术栈实践。"
     />
+    <meta name="theme-color" content="#eeeeee" />
   </head>
   <body>
-    <script>
-      (function () {
-        const themeMode = localStorage.getItem('theme-mode');
-        let bgThemeColor = localStorage.getItem('bgThemeColor');
-        if (!bgThemeColor) {
-          bgThemeColor = themeMode === 'dark' ? '#1f1f1f' : '#fff';
-        }
-        document.documentElement.style.setProperty('--color-bg-elevated', bgThemeColor);
-        document.body.style.setProperty('background', bgThemeColor);
-      })();
-    </script>
-
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
