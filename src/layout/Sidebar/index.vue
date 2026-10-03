@@ -111,4 +111,15 @@ onMounted(updateExpanded);
   overflow: auto;
   border: 0;
 }
+
+html[theme-mode='dark'] .aside-menu {
+  :deep(.t-menu__item.t-is-active:not(.t-is-opened)) {
+    color: var(--td-brand-color);
+    background-color: color-mix(in srgb, var(--td-brand-color) 16%, var(--td-bg-color-container));
+  }
+
+  :deep(.t-menu__item.t-is-active:not(.t-is-opened) .t-icon) {
+    color: var(--td-brand-color);
+  }
+}
 </style>

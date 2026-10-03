@@ -39,7 +39,7 @@ const router = useRouter();
     </t-button>
     <div class="brand" @click="router.push('/')">
       <img class="logo" :src="logoPath" alt="" />
-      <span>Admin<span class="accent">x</span></span>
+      <span class="brand-name">Admin<span class="accent">x</span></span>
     </div>
     <div class="grow"></div>
     <div class="actions">
@@ -121,8 +121,15 @@ const router = useRouter();
   margin-left: 4px;
   font-size: 15px;
   font-weight: 600;
+  color: var(--td-text-color-primary);
   cursor: pointer;
   user-select: none;
+}
+
+.brand-name {
+  display: inline-flex;
+  gap: 4px;
+  align-items: baseline;
 }
 
 .logo {
@@ -133,6 +140,10 @@ const router = useRouter();
 
 .accent {
   color: var(--td-brand-color);
+}
+
+html[theme-mode='dark'] .accent {
+  color: var(--td-brand-color-9);
 }
 
 .grow {

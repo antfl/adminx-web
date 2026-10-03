@@ -45,16 +45,32 @@ const alignLight = (palette: string[], primary: number, brand: string) => {
   });
 };
 
+const DARK_SURFACE = '#242424';
+
+const mixHex = (from: string, to: string, toRatio: number) => {
+  const parse = (hex: string) => {
+    const value = hex.replace('#', '');
+    return [0, 2, 4].map((i) => Number.parseInt(value.slice(i, i + 2), 16));
+  };
+  const format = (channel: number) => Math.round(channel).toString(16).padStart(2, '0');
+  const start = parse(from);
+  const end = parse(to);
+  return `#${[0, 1, 2].map((i) => format(start[i] + (end[i] - start[i]) * toRatio)).join('')}`;
+};
+
 /**
  * 暗色从深到浅，并略降饱和度。
- * 框架把暗色主色指向第 8 阶，这里放比亮色主色浅一档的颜色，保证深色背景上仍能看清。
+ * 框架把暗色主色指向第 8 阶；浅阶要贴近容器底色，避免菜单选中变成一块高饱和蓝。
  */
 const alignDark = (light: string[]) => {
-  const reversed = [...light].reverse().map((color) => adjustSaturation(color, -4));
+  const reversed = [...light].reverse().map((color) => adjustSaturation(color, -8));
   const shift = 3;
+  const surfaceMix = [0.78, 0.62, 0.46];
   return Array.from({ length: 10 }, (_, index) => {
     const source = Math.min(9, Math.max(0, index - shift));
-    return reversed[source];
+    const color = reversed[source];
+    if (index > 2) return color;
+    return mixHex(color, DARK_SURFACE, surfaceMix[index]);
   });
 };
 
