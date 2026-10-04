@@ -20,3 +20,54 @@ h6 {
 li {
   list-style: none;
 }
+
+:root::view-transition-group(root) {
+  animation-duration: 1s;
+}
+
+:root::view-transition-new(root),
+:root::view-transition-old(root) {
+  mix-blend-mode: normal;
+}
+
+:root::view-transition-old(root),
+:root[theme-mode='dark']::view-transition-old(root) {
+  animation: none;
+}
+
+:root::view-transition-new(root) {
+  animation-name: dark-to-light;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+}
+
+:root[theme-mode='dark']::view-transition-new(root) {
+  animation-name: light-to-dark;
+}
+
+@keyframes light-to-dark {
+  from {
+    clip-path: polygon(0 0, 0 0, -14vh 100%, -14vh 100%);
+  }
+
+  to {
+    clip-path: polygon(0 0, calc(100% + 14vh) 0, 100% 100%, -14vh 100%);
+  }
+}
+
+@keyframes dark-to-light {
+  from {
+    clip-path: polygon(calc(100% + 14vh) 0, calc(100% + 14vh) 0, 100% 100%, 100% 100%);
+  }
+
+  to {
+    clip-path: polygon(0 0, calc(100% + 14vh) 0, 100% 100%, -14vh 100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root::view-transition-group(root),
+  :root::view-transition-new(root) {
+    animation-duration: 0s;
+  }
+}

@@ -4,6 +4,12 @@ interface ImportMetaEnv {
   readonly VITE_MOCK_LOGIN: string;
 }
 
+interface Document {
+  startViewTransition?: (updateCallback: () => void | Promise<void>) => {
+    finished: Promise<void>;
+  };
+}
+
 declare module '*.json' {
   const value: any;
   export default value;

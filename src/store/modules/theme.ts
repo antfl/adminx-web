@@ -10,8 +10,24 @@ export const useThemeStore = defineStore('theme', () => {
 
   const currentTheme = computed<'light' | 'dark'>(() => (mode.value === 'dark' ? 'dark' : 'light'));
 
+  const applyThemeMode = (next: 'light' | 'dark') => {
+    mode.value = next;
+    document.documentElement.setAttribute('theme-mode', next);
+    applyBrandColor(primaryColor.value);
+  };
+
   const toggleTheme = () => {
-    mode.value = currentTheme.value === 'dark' ? 'light' : 'dark';
+    const next = currentTheme.value === 'dark' ? 'light' : 'dark';
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || typeof document.startViewTransition !== 'function') {
+      applyThemeMode(next);
+      return;
+    }
+    try {
+      document.startViewTransition(() => applyThemeMode(next));
+    } catch {
+      applyThemeMode(next);
+    }
   };
 
   const setPrimaryColor = (color: string) => {
